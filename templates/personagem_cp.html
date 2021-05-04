@@ -1,0 +1,1047 @@
+{% extends 'base_cp.html' %}
+
+{% block head %}
+    <title>Ficha Personagem</title>
+    <link href="{{ url_for('static', filename='css/pers.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="col-8 bg-img borda-m ficha_cont" style="padding-left:30px; padding-right:30px;">
+        <div class="container" style="margin-top:110px;">
+            <div class="row">
+                <div class="col-2" style="text-align: left;"><label><h4 class="fairyDust">Nome:</h4></label></div>
+                <div class="col-6" style="text-align: center;">
+                    <h4 class='fairyDust'><input type='text' value="{{personagem.name}}" placeholder="Nome" name='data.name' style='width:100%'/></h4>
+                </div>
+                <div class="col-2"><label><h4 class="fairyDust">Estágio:</h4></label></div>
+                <div class="col-2">
+                    <h4 class="fairyDust"><input type='number' value="{{personagem.estagio}}" name='data.estagio' value='1' style='width:100%; text-align:center;'/></h4>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 5px;">
+                <div class="col-12">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="mediaeval nav-link active nav_button" id="basico-tab" data-bs-toggle="tab" data-bs-target="#basico" type="button" role="tab" aria-controls="basico" aria-selected="true">Básico</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="mediaeval nav-link nav_button" id="habilidades-tab" data-bs-toggle="tab" data-bs-target="#habilidades" type="button" role="tab" aria-controls="habilidades" aria-selected="false">Habilidades</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="mediaeval nav-link nav_button" id="combate-tab" data-bs-toggle="tab" data-bs-target="#combate" type="button" role="tab" aria-controls="combate" aria-selected="false">Combate</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="mediaeval nav-link nav_button" id="magia-tab" data-bs-toggle="tab" data-bs-target="#magia" type="button" role="tab" aria-controls="magia" aria-selected="false">Magia</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="mediaeval nav-link nav_button" id="pertences-tab" data-bs-toggle="tab" data-bs-target="#pertences" type="button" role="tab" aria-controls="pertences" aria-selected="false">Pertences</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="mediaeval nav-link nav_button" id="efeitos-tab" data-bs-toggle="tab" data-bs-target="#efeitos" type="button" role="tab" aria-controls="efeitos" aria-selected="false">Efeitos</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tab-content" id="myTabContent"> <!-- Tab Basico -->
+                <div class="tab-pane fade show active" id="basico" role="tabpanel" aria-labelledby="basico-tab">
+                    <div class="row">
+                        <div class="col-1" style="text-align: left;"><label><h4 class="mediaeval">Raça:</h4></label></div>
+                        <div class="col-3">
+                            <h4 class="mediaeval"><input type='text' value="{{personagem.raca}}" placeholder="Raça" name='data.raca' class='raca_text' readonly style='width:100%'/></h4>
+                        </div>
+                        <div class="col-2" style="text-align: left;"><label><h4 class="mediaeval">Profissão:</h4></label></div>
+                        <div class="col-3">
+                            <h4 class="mediaeval"><input type='text' value="{{personagem.profissao}}" placeholder="Profissão" name='data.profissao' class='prof_text' readonly style='width:100%'/></h4>
+                        </div>
+                        <div class="col-1" style="text-align: left;"><label><h4 class="mediaeval">Deus:</h4></label></div>
+                        <div class="col-2">
+                            <h4 class="mediaeval"><input type='text' value="{{personagem.deus}}" placeholder="Deus" name='data.deus' list="deuses" style='width:100%'/></h4>
+                            <datalist id="deuses">
+                                <option value="Blator"></option>
+                                <option value="Cambu"></option>
+                                <option value="Crezir"></option>
+                                <option value="Crisagom"></option>
+                                <option value="Cruine"></option>
+                                <option value="Ganis"></option>
+                                <option value="Lena"></option>
+                                <option value="Liris"></option>
+                                <option value="Maira"></option>
+                                <option value="Palier"></option>
+                                <option value="Parom"></option>
+                                <option value="Plandis"></option>
+                                <option value="Quiris"></option>
+                                <option value="Selimon"></option>
+                                <option value="Sevides"></option>
+                            </datalist>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2" style="text-align: left;"><label><h4 class="mediaeval">Classe Social:</h4></label></div>
+                        <div class="col-2">
+                            <h4 class="mediaeval"><input type='text' value="{{personagem.classe_social}}" name='data.classe_social' style='width:100%;' placeholder="Classe Social"/></h4>
+                        </div>
+                        <div class="col-2" style="text-align: left;"><label><h4 class="mediaeval">Especialização:</h4></label></div>
+                        <div class='col-4'>
+                            <h4 class="mediaeval"><select class='espec_selec' value="{{personagem.especializacao}}" style='width:100%'>
+                            </select></h4>
+                            <input type="text" name='data.especializacao' value="{{personagem.especializacao}}" class="mhidden espec_value"/>
+                        </div>
+                        <div class="col-1" style="text-align: left;"><label><h4 class="mediaeval">Idade:</h4></label></div>
+                        <div class="col-1">
+                            <h4 class="mediaeval"><input type='number' value="{{personagem.idade}}" name='data.idade' style='width:100%'/></h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2" style="text-align: left;">
+                            <label><h4 class="mediaeval">Altura(m):</h4></label>
+                        </div>
+                        <div class="col-2">
+                            <h4 class="mediaeval"><input type='text' value="{{personagem.altura}}" name='data.altura' style="width: 100%;" /></h4>
+                        </div>
+                        <div class="col-2">
+                            <label><h4 class="mediaeval">Peso(Kg):</h4></label>
+                        </div>
+                        <div class="col-2">
+                            <h4 class="mediaeval"><input type='number' value="{{personagem.peso}}" name='data.peso' style="width: 60px;" /></h4>
+                        </div>
+                        <div class="col-2">
+                            <label><h4 class="mediaeval">Carga(Kg):</h4></label>
+                        </div>
+                        <div class="col-1" style="text-align: left;">
+                            <h4 class="mediaeval"><input type='number' value="{{personagem.carga_value}}" name='data.carga.value' style="width: 60px;" readonly /></h4>
+                        </div>
+                        <div class="col-1">
+                            {%if personagem.carga_sobrecarga %}
+                                <div class="sobrepeso" style="margin-left: 5px;"><span class='fa-layers fa-fw'><i class="fas fa-weight-hanging" data-fa-transform='up-10 right-10'></i><span class="mediaeval fa-layers-text" data-fa-transform='right-10 down-10'>{{ "+%.2fKg" % personagem.carga_valor_s|float }}</span></span></div>
+                            {%endif%}
+                            {% if not personagem.carga_sobrecarga %}
+                                <div class="sobrepeso mhidden"></div>
+                            {%endif%}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table table-striped">
+                                <tr>
+                                    <th width='200px'><h4 class="mediaeval">Pontos:  <input type='number' name='data.carac_final.INT' value='{{personagem.carac_final_INT}}' style="width: 40px; text-align: center; border-width:0;" readonly/></h4></th>
+                                    <th style="text-align: center;" class="mediaeval"><a class='roll_atributo' data-atrib="INT">INT</a></th>
+                                    <th style="text-align: center;" class="mediaeval"><a class='roll_atributo' data-atrib="AUR">AUR</a></th>
+                                    <th style="text-align: center;" class="mediaeval"><a class='roll_atributo' data-atrib="CAR">CAR</a></th>
+                                    <th style="text-align: center;" class="mediaeval"><a class='roll_atributo' data-atrib="FOR">FOR</a></th>
+                                    <th style="text-align: center;" class="mediaeval"><a class='roll_atributo' data-atrib="FIS">FIS</a></th>
+                                    <th style="text-align: center;" class="mediaeval"><a class='roll_atributo' data-atrib="AGI">AGI</a></th>
+                                    <th style="text-align: center;" class="mediaeval"><a class='roll_atributo' data-atrib="PER">PER</a></th>
+                                </tr>
+                                <tr>
+                                    <th class="mediaeval">Modificador Racial</th>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.mod_racial_INT}}" name='data.mod_racial.INT' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.mod_racial_AUR}}" name='data.mod_racial.AUR' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.mod_racial_CAR}}" name='data.mod_racial.CAR' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.mod_racial_FOR}}" name='data.mod_racial.FOR' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.mod_racial_FIS}}" name='data.mod_racial.FIS' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.mod_racial_AGI}}" name='data.mod_racial.AGI' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.mod_racial_PER}}" name='data.mod_racial.PER' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="mediaeval"><a class='roll_carac' onClick='roll_carac()' title="Rolar Dados">Pontos Gastos</a></th>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.carac_sort_INT}}" name='data.carac_sort.INT' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.carac_sort_AUR}}" name='data.carac_sort.AUR' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.carac_sort_CAR}}" name='data.carac_sort.CAR' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.carac_sort_FOR}}" name='data.carac_sort.FOR' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.carac_sort_FIS}}" name='data.carac_sort.FIS' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.carac_sort_AGI}}" name='data.carac_sort.AGI' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.carac_sort_PER}}" name='data.carac_sort.PER' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="mediaeval">Ajuste</th>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.atributos_INT}}" name='data.atributos.INT' style="width: 60px; text-align: center;"/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.atributos_AUR}}" name='data.atributos.AUR' style="width: 60px; text-align: center;"/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.atributos_CAR}}" name='data.atributos.CAR' style="width: 60px; text-align: center;"/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.atributos_FOR}}" name='data.atributos.FOR' style="width: 60px; text-align: center;"/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.atributos_FIS}}" name='data.atributos.FIS' style="width: 60px; text-align: center;"/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.atributos_AGI}}" name='data.atributos.AGI' style="width: 60px; text-align: center;"/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.atributos_PER}}" name='data.atributos.PER' style="width: 60px; text-align: center;"/></h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="mediaeval">Valor Para Teste</th>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.valor_teste_INT}}" name='data.valor_teste.INT' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.valor_teste_AUR}}" name='data.valor_teste.AUR' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.valor_teste_CAR}}" name='data.valor_teste.CAR' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.valor_teste_FOR}}" name='data.valor_teste.FOR' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.valor_teste_FIS}}" name='data.valor_teste.FIS' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.valor_teste_AGI}}" name='data.valor_teste.AGI' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <h4 class="mediaeval"><input type='number' value="{{personagem.valor_teste_PER}}" name='data.valor_teste.PER' style="width: 60px; text-align: center;" readonly/></h4>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table table-striped">
+                                <caption class="mediaeval caption-top" style="text-align: center;">Pontos para Grupo de Armas: <input type='number' class='pontos_armas' value="{{personagem.pontos_comb}}" name='data.pontos_comb' style="text-align: center; width:40px;border-width:0;" readonly/></caption>
+                                <tr style="text-align: center;">
+                                    <th class="mediaeval">CD</th>
+                                    <th class="mediaeval">CI</th>
+                                    <th class="mediaeval">CL</th>
+                                    <th class="mediaeval">CLD</th>
+                                    <th class="mediaeval">EL</th>
+                                    <th class="mediaeval">CmE</th>
+                                    <th class="mediaeval">CmM</th>
+                                    <th class="mediaeval">EM</th>
+                                    <th class="mediaeval">PmA</th>
+                                    <th class="mediaeval">PmL</th>
+                                    <th class="mediaeval">CpE</th>
+                                    <th class="mediaeval">CpM</th>
+                                    <th class="mediaeval">EP</th>
+                                    <th class="mediaeval">PP</th>
+                                    <th class="mediaeval">PpA</th>
+                                    <th class="mediaeval">PpB</th>
+                                </tr>
+                                <tr style="text-align: center;">
+                                    <td><a class="addGrupoArmas" data-tipo_grupo="CD"><i class="fas fa-plus-circle"></i></a></td>
+                                    <td><a class="addGrupoArmas" data-tipo_grupo="CI"><i class="fas fa-plus-circle"></i></a></td>
+                                    <td><a class="addGrupoArmas" data-tipo_grupo="CL"><i class="fas fa-plus-circle"></i></a></td>
+                                    <td><a class="addGrupoArmas" data-tipo_grupo="CLD"><i class="fas fa-plus-circle"></i></a></td>
+                                    <td><a class="addGrupoArmas" data-tipo_grupo="EL"><i class="fas fa-plus-circle"></i></a></td>
+                                    <td><a class="addGrupoArmas" data-tipo_grupo="CmE"><i class="fas fa-plus-circle"></i></a></td>
+                                    <td><a class="addGrupoArmas" data-tipo_grupo="CmM"><i class="fas fa-plus-circle"></i></a></td>
+                                    <td><a class="addGrupoArmas" data-tipo_grupo="EM"><i class="fas fa-plus-circle"></i></a></td>
+                                    <td><a class="addGrupoArmas" data-tipo_grupo="PmA"><i class="fas fa-plus-circle"></i></a></td>
+                                    <td><a class="addGrupoArmas" data-tipo_grupo="PmL"><i class="fas fa-plus-circle"></i></a></td>
+                                    <td><a class="addGrupoArmas" data-tipo_grupo="CpE"><i class="fas fa-plus-circle"></i></a></td>
+                                    <td><a class="addGrupoArmas" data-tipo_grupo="CpM"><i class="fas fa-plus-circle"></i></a></td>
+                                    <td><a class="addGrupoArmas" data-tipo_grupo="EP"><i class="fas fa-plus-circle"></i></a></td>
+                                    <td><a class="addGrupoArmas" data-tipo_grupo="PP"><i class="fas fa-plus-circle"></i></a></td>
+                                    <td><a class="addGrupoArmas" data-tipo_grupo="PpA"><i class="fas fa-plus-circle"></i></a></td>
+                                    <td><a class="addGrupoArmas" data-tipo_grupo="PpB"><i class="fas fa-plus-circle"></i></a></td>
+                                </tr>
+                                <tr style="text-align: center;">
+                                    <td class="mediaeval"><input value="{{personagem.grupos_CD}}" title="Combate Desarmado" name="data.grupos.CD" type="number" value=0 style="width: 30px; text-align: center;"/></td>
+                                    <td class="mediaeval"><input value="{{personagem.grupos_CI}}" title="Combate de Imobilização" name="data.grupos.CI" type="number" value=0 readonly style="width: 30px; text-align: center;"/></td>
+                                    <td class="mediaeval"><input value="{{personagem.grupos_CL}}" title="Corte Leve" name="data.grupos.CL" type="number" value=0 readonly style="width: 30px; text-align: center;"/></td>
+                                    <td class="mediaeval"><input value="{{personagem.grupos_CLD}}" title="Combate Leve à Distância" name="data.grupos.CLD" type="number" value=0 readonly style="width: 30px; text-align: center;"/></td>
+                                    <td class="mediaeval"><input value="{{personagem.grupos_EL}}" title="Esmagamento Leve" name="data.grupos.EL" type="number" value=0 readonly style="width: 30px; text-align: center;"/></td>
+                                    <td class="mediaeval"><input value="{{personagem.grupos_CmE}}" title="Corte Médio Com Espadas" name="data.grupos.CmE" type="number" value=0 readonly style="width: 30px; text-align: center;"/></td>
+                                    <td class="mediaeval"><input value="{{personagem.grupos_CmM}}" title="Corte Médio Com Machados" name="data.grupos.CmM" type="number" value=0 readonly style="width: 30px; text-align: center;"/></td>
+                                    <td class="mediaeval"><input value="{{personagem.grupos_EM}}" title="Esmagamento Médio" name="data.grupos.EM" type="number" value=0 readonly style="width: 30px; text-align: center;"/></td>
+                                    <td class="mediaeval"><input value="{{personagem.grupos_PmA}}" title="Penetração Média Com Arcos" name="data.grupos.PmA" type="number" value=0 readonly style="width: 30px; text-align: center;"/></td>
+                                    <td class="mediaeval"><input value="{{personagem.grupos_PmL}}" title="Penetração Média Com Lanças" name="data.grupos.PmL" type="number" value=0 readonly style="width: 30px; text-align: center;"/></td>
+                                    <td class="mediaeval"><input value="{{personagem.grupos_CpE}}" title="Corte Pesado Com Espadas" name="data.grupos.CpE" type="number" value=0 readonly style="width: 30px; text-align: center;"/></td>
+                                    <td class="mediaeval"><input value="{{personagem.grupos_CpM}}" title="Corte Pesado Com Machados" name="data.grupos.CpM" type="number" value=0 readonly style="width: 30px; text-align: center;"/></td>
+                                    <td class="mediaeval"><input value="{{personagem.grupos_EP}}" title="Esmagamento Pesado" name="data.grupos.EP" type="number" value=0 readonly style="width: 30px; text-align: center;"/></td>
+                                    <td class="mediaeval"><input value="{{personagem.grupos_PP}}" title="Penetração Pesada" name="data.grupos.PP" type="number" value=0 readonly style="width: 30px; text-align: center;"/></td>
+                                    <td class="mediaeval"><input value="{{personagem.grupos_PpA}}" title="Pentração Pesado Com Arcos" name="data.grupos.PpA" type="number" value=0 readonly style="width: 30px; text-align: center;"/></td>
+                                    <td class="mediaeval"><input value="{{personagem.grupos_PpB}}" title="Pentração Pesado Com Bestas" name="data.grupos.PpB" type="number" value=0 readonly style="width: 30px; text-align: center;"/></td>
+                                </tr>
+                                <tr style="text-align: center;">
+                                    <td><a class="subGrupoArmas" data-tipo_grupo="CD"><i class="fas fa-minus-circle"></i></a></td>
+                                    <td><a class="subGrupoArmas" data-tipo_grupo="CI"><i class="fas fa-minus-circle"></i></a></td>
+                                    <td><a class="subGrupoArmas" data-tipo_grupo="CL"><i class="fas fa-minus-circle"></i></a></td>
+                                    <td><a class="subGrupoArmas" data-tipo_grupo="CLD"><i class="fas fa-minus-circle"></i></a></td>
+                                    <td><a class="subGrupoArmas" data-tipo_grupo="EL"><i class="fas fa-minus-circle"></i></a></td>
+                                    <td><a class="subGrupoArmas" data-tipo_grupo="CmE"><i class="fas fa-minus-circle"></i></a></td>
+                                    <td><a class="subGrupoArmas" data-tipo_grupo="CmM"><i class="fas fa-minus-circle"></i></a></td>
+                                    <td><a class="subGrupoArmas" data-tipo_grupo="EM"><i class="fas fa-minus-circle"></i></a></td>
+                                    <td><a class="subGrupoArmas" data-tipo_grupo="PmA"><i class="fas fa-minus-circle"></i></a></td>
+                                    <td><a class="subGrupoArmas" data-tipo_grupo="PmL"><i class="fas fa-minus-circle"></i></a></td>
+                                    <td><a class="subGrupoArmas" data-tipo_grupo="CpE"><i class="fas fa-minus-circle"></i></a></td>
+                                    <td><a class="subGrupoArmas" data-tipo_grupo="CpM"><i class="fas fa-minus-circle"></i></a></td>
+                                    <td><a class="subGrupoArmas" data-tipo_grupo="EP"><i class="fas fa-minus-circle"></i></a></td>
+                                    <td><a class="subGrupoArmas" data-tipo_grupo="PP"><i class="fas fa-minus-circle"></i></a></td>
+                                    <td><a class="subGrupoArmas" data-tipo_grupo="PpA"><i class="fas fa-minus-circle"></i></a></td>
+                                    <td><a class="subGrupoArmas" data-tipo_grupo="PpB"><i class="fas fa-minus-circle"></i></a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <table class="table table-striped">
+                                <caption style="text-align: center;" class="mediaeval caption-top">Pontos de Experiência</caption>
+                                <tr style="text-align: center;">
+                                    <th class="mediaeval" width="125px">Atual</th>
+                                    <td class="mediaeval"><input title="Pontos de EXP atual." value="{{personagem.pontos_estagio_value}}" name="data.pontos_estagio.value" type="number" style="width: 50px; text-align:center;" /></td>
+                                </tr>
+                                <tr style="text-align: center;">
+                                    <th class="mediaeval">Próximo Estágio</th>
+                                    <td class="mediaeval"><input title="Quanto você precisa para passar de Estágio?" value="{{personagem.pontos_estagio_next}}" name="data.pontos_estagio.next" type="number" style="width: 50px; text-align:center;" readonly/></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-2">
+                            <table class='table_novaEH mhidden table table-striped'>
+                                <caption class="mediaeval caption-top" style="text-align: center;">Nova EH</caption>
+                                <tr style="text-align: center;">
+                                    <th class="mediaeval"><a title="Clique para rolar 1d10." onClick='get_1d10()' style="margin-right: 10px;"><i class="fas fa-dice-d20"></i></a><a class="calculaNovaEH" title="Calcular EH" onClick="up_eh()"><i class="fas fa-calculator"></i></a></th>
+                                </tr>
+                                <tr style="text-align: center;">
+                                    <td class="mediaeval"><input title="Valor sorteado." class="valord10EH" name="data.valor_dado_eh" type="number" style="width: 50px; text-align:center;"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-6">
+                            <table class="table table-striped">
+                                <tr style="text-align: left;">
+                                    <th class="mediaeval">V.Base</th>
+                                    <th class="mediaeval">V.B.E</th>
+                                    <th class="mediaeval"><a class="rolaR_Fis" title="Preencha F.Ataque para rolar Tesde de Resistência.">R.Física</a></th>
+                                    <th class="mediaeval"><a class="rolaR_Mag"  title="Preencha F.Ataque para rolar Tesde de Resistência.">R.Magia</a></th>
+                                    <th class="mediaeval"><a class="rolaR_iniciativa"  title="Rolar Iniciativa.">Iniciativa</a></th>
+                                </tr>
+                                <tr>
+                                    <td class="mediaeval"><input title="Velocidade Base." value="{{personagem.vb}}" name="data.vb" type="number" style="width: 50px; text-align:center;" readonly/></td> 
+                                    <td class="mediaeval"><input name="data.vbe" value="{{personagem.vbe}}" type="number" style="width: 50px; text-align:center;"  title="Você voa? Você nada? Coloca ai e não enche o saco!" /></td>
+                                    <td class="mediaeval"><input name="data.rf" value="{{personagem.rf}}" type="number" style="width: 50px; text-align:center;"  title="Resistência Física." readonly/></td>
+                                    <td class="mediaeval"><input name="data.rm" value="{{personagem.rm}}" type="number" style="width: 50px; text-align:center;"  title="Resistência Magía." readonly/></td>
+                                    <td class="mediaeval"><input name="data.iniciativa" value="{{personagem.iniciativa}}" type="number" style="width: 50px; text-align:center;"  title="Valor para testar Iniciativa."/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <th class="mediaeval">F.Ataque:</th>
+                                    <td class="mediaeval"><input class="F_Ataque" style="width: 50px; text-align:center;"  type="number" name="data.forca_ataque" title="Força de Ataque para Teste de Resistência Física ou Magía."/></td> 
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-10">
+                            <div class="row">
+                                <div class="col-8">
+                                    <table class="table table-striped">
+                                        <tr style="text-align: center;">
+                                            <th style="width: 200px;"></th>
+                                            <th class="mediaeval">EF</th>
+                                            <th class="mediaeval">EH</th>
+                                            <th class="mediaeval">Karma</th>
+                                            <th class="mediaeval">Focus</th>
+                                            <th class="mediaeval">Absorção </th>
+                                        </tr>
+                                        <tr>
+                                            <th class="mediaeval">Valor Máximo</th>
+                                            <td class="mediaeval"> <input name="data.ef.max" value="{{personagem.ef_max}}" type="number" title="Que EF mixuruca." style="width: 50px; text-align:center;" /> </td>
+                                            <td class="mediaeval"> <input name="data.eh.max" value="{{personagem.eh_max}}" type="number" title="Energia Heróica" style="width: 50px; text-align:center;" /> </td>
+                                            <td class="mediaeval"> <input class="ipKarmaMax" value="{{personagem.karma_max}}" name="data.karma.max" type="number" title="Karma" style="width: 50px; text-align:center;" /> </td>
+                                            <td class="mediaeval"> <input name="data.focus.max" value="{{personagem.focus_max}}" type="number" title="Você tem Focus?" style="width: 50px; text-align:center;" /> </td>
+                                            <td class="mediaeval"> <input name="data.absorcao.max" value="{{personagem.absorcao_max}}" type="number" title="Está naqueles dias? Para máxima absorção use absorvente Intimus." style="width: 50px; text-align:center;" /> </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="mediaeval">Valor Atual</th>
+                                            <td class="mediaeval"> <input name="data.ef.value" value="{{personagem.ef_value}}" type="number" title="Cuidado com um crítico.Sê vai morrer eim!" style="width: 50px; text-align:center;" />  </td>
+                                            <td class="mediaeval"> <input name="data.eh.value" value="{{personagem.eh_value}}" type="number" title="Aqui tem corajem!" style="width: 50px; text-align:center;" /> </td>
+                                            <td class="mediaeval"> <input name="data.karma.value" value="{{personagem.karma_value}}" type="number" title="Karma ou carma é um termo de uso religioso dentro das doutrinas budista, xintoísta, hinduísta, jainista, sique e teosófica. Em cada uma dessas doutrinas, o termo tem um sentido próprio. -Wikipédia" style="width: 50px; text-align:center;" /> </td>
+                                            <td class="mediaeval"> <input name="data.focus.value" value="{{personagem.focus_value}}" type="number" title="Focus 2013 semi-novo R$39.900,00." style="width: 50px; text-align:center;" /> </td>
+                                            <td class="mediaeval"> <input name="data.absorcao.value" value="{{personagem.absorcao_value}}" type="number" title="No seu caso é melhor usar fraldas Pampers." style="width: 50px; text-align:center;" /> </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-4">
+                                    <table class="table table-striped">
+                                        <tr style="text-align: left;">
+                                            <th width="80px"></th>
+                                            <th class="mediaeval">Cat.</th>
+                                            <th class="mediaeval">Valor</th>
+                                        </tr>
+                                        <tr style="text-align: left;">
+                                            <th class="mediaeval" width="80px">D.Ativa</th>
+                                            <td class="mediaeval"><input name="data.d_ativa.categoria" value="{{personagem.d_ativa_categoria}}" type="text" title="Tipo da defesa." readonly style="width: 50px; text-align:center;"/></td>
+                                            <td class="mediaeval"><input name="data.d_ativa.valor" value="{{personagem.d_ativa_valor}}" type="number" title="Valor da defesa ativa." readonly style="width: 50px; text-align:center;"/></td>
+                                        </tr>
+                                        <tr style="text-align: left;">
+                                            <th class="mediaeval">D.Passiva</th>
+                                            <td class="mediaeval"><input name="data.d_passiva.categoria" value="{{personagem.d_passiva_categoria}}" type="text" title="Tipo da defesa." readonly style="width: 50px; text-align:center;"/></td>
+                                            <td class="mediaeval"><input name="data.d_passiva.valor" value="{{personagem.d_passiva_valor}}" type="number" title="Valor da defesa passiva." readonly style="width: 50px; text-align:center;"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="col-md-1">
+                                    <label><h4 class="mediaeval">Caract.</h4></label>
+                                </div>
+                                <div class="col-md-11">
+                                    <textarea class="form-control mediaeval" value="{{personagem.descricao}}" name='data.descricao' rows=3 style="margin-bottom: 10px;">{{personagem.descricao}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <table class="table table-striped" style="width: 80px; margin-left:30px;">
+                                <tr style="text-align: center;">
+                                    <th class="mediaeval">M.O</th>
+                                </tr>
+                                <tr style="text-align: center;">
+                                    <td class="mediaeval">
+                                        <input type='number' name="data.mo" value="{{personagem.dinheiro_mo}}" style="width: 50px; text-align:center;"/>
+                                    </td>
+                                </tr>
+                                <tr style="text-align: center;">
+                                    <th class="mediaeval">M.P</th>
+                                </tr>
+                                <tr style="text-align: center;">
+                                    <td class="mediaeval">
+                                        <input type='number' name="data.mp" value="{{personagem.dinheiro_mp}}" style="width: 50px; text-align:center;"/>
+                                    </td>
+                                </tr>
+                                <tr style="text-align: center;">
+                                    <th class="mediaeval">M.C</th>
+                                </tr>
+                                <tr style="text-align: center;">
+                                    <td class="mediaeval">
+                                        <input type='number' name="data.mc" value="{{personagem.dinheiro_mc}}" style="width: 50px; text-align:center;"/>
+                                    </td> 
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="habilidades" role="tabpanel" aria-labelledby="habilidades-tab"> <!-- Tab Habilidades -->
+                    <div class="row">
+                        <div class="col-2"></div>
+                        <div class="col-3">
+                            <label><h4 class="mediaeval">Pontos Para Habilidades:</h4></label>
+                        </div>
+                        <div class="col-2">
+                            <h4 class="mediaeval"><input name="data.pontos_aqui" value="{{personagem.pontos_aqui}}" type="number" style='text-align:center; width:60px;' readonly/></h4>
+                        </div>
+                        <div class="col-3">
+                            <label><h4 class="mediaeval">Bônus/Penalidade:</h4></label>
+                        </div>
+                        <div class="col-2">
+                            <h4 class="mediaeval"><input name="data.bonus_habil" value="{{personagem.bonus_habil}}" type="number" style='text-align:center; width:60px;' title="Bônus/Penalidade será aplicado a todas as habilidades."/></h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <h4 class="mediaeval">Habilidade Nata(<input name='profissao.hab_nata' type='text' style="color: gray; border-width:0; width:100px;" readonly/>):</h4>
+                        </div>
+                        <div class="col-5">
+                            <h4 class="mediaeval"><select class='select_hab_nata' value="{{personagem.hab_nata}}" type='text' style="width: 200px;">
+                                <option value=''></option>
+                            </select></h4>
+                            <input type="text" value="{{personagem.hab_nata}}" name="data.hab_nata" class='mhidden hab_nata_value'/>
+                        </div>
+                        <div class="col-3">
+                            <label><h4 class="mediaeval" style="text-align: left;">Max. Habilidades:<input type='number' name='data.max_hab' value="{{personagem.max_hab}}" style='width:30px; border-width: 0; text-align:center;' /></h4></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <table class="table table-striped table_h_prof">
+                                <caption class="caption-top fairyDust" style="text-align: center;"><h3>Profissional</h3></caption>
+                                <tr>
+                                    <th class="mediaeval">Habilidade</th>
+                                    <th class="mediaeval">Nível</th>
+                                    <th class="mediaeval">Del</th>
+                                </tr>
+                                {% for item in items_pers %}
+                                    {% if item['type'] == "Habilidade" and item['data']['tipo'] == "profissional" %}
+                                        <tr>
+                                            <td class='mediaeval' style='font-size: 80%;'><a class='roll_hab' data-item="{{ item['_id'] }}">{{ item['name'] }}</a></td>
+                                            <td class='mediaeval'><input style='width: 30px; text-align:center;' type='number' class='hab_nivel' data-hab="{{item['_id']}}" value="{{item['data']['nivel']}}"/></td>
+                                            <td><a class='remove_hab' data-hab="{{item['_id']}}"><i class='fas fa-trash'></i></a></td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        </div>
+                        <div class="col-4">
+                            <table class="table table-striped table_h_man">
+                                <caption class="caption-top fairyDust" style="text-align: center;"><h3>Manobra</h3></caption>
+                                <tr>
+                                    <th class="mediaeval">Habilidade</th>
+                                    <th class="mediaeval">Nível</th>
+                                    <th class="mediaeval">Del</th>
+                                </tr>
+                                {% for item in items_pers %}
+                                    {% if item['type'] == "Habilidade" and item['data']['tipo'] == "manobra" %}
+                                        <tr>
+                                            <td class='mediaeval' style='font-size: 80%;'><a class='roll_hab' data-item="{{ item['_id'] }}">{{ item['name'] }}</a></td>
+                                            <td class='mediaeval'><input style='width: 30px; text-align:center;' type='number' class='hab_nivel' data-hab="{{item['_id']}}" value="{{item['data']['nivel']}}"/></td>
+                                            <td><a class='remove_hab' data-hab="{{item['_id']}}"><i class='fas fa-trash'></i></a></td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        </div>
+                        <div class="col-4">
+                            <table class="table table-striped table_h_con">
+                                <caption class="caption-top fairyDust" style="text-align: center;"><h3>Conhecimento</h3></caption>
+                                <tr>
+                                    <th class="mediaeval">Habilidade</th>
+                                    <th class="mediaeval">Nível</th>
+                                    <th class="mediaeval">Del</th>
+                                </tr>
+                                {% for item in items_pers %}
+                                    {% if item['type'] == "Habilidade" and item['data']['tipo'] == "conhecimento" %}
+                                        <tr>
+                                            <td class='mediaeval' style='font-size: 80%;'><a class='roll_hab' data-item="{{ item['_id'] }}">{{ item['name'] }}</a></td>
+                                            <td class='mediaeval'><input style='width: 30px; text-align:center;' type='number' class='hab_nivel' data-hab="{{item['_id']}}" value="{{item['data']['nivel']}}"/></td>
+                                            <td><a class='remove_hab' data-hab="{{item['_id']}}"><i class='fas fa-trash'></i></a></td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <table class="table table-striped table_h_sub">
+                                <caption class="caption-top fairyDust" style="text-align: center;"><h3>Subterfúgio</h3></caption>
+                                <tr>
+                                    <th class="mediaeval">Habilidade</th>
+                                    <th class="mediaeval">Nível</th>
+                                    <th class="mediaeval">Del</th>
+                                </tr>
+                                {% for item in items_pers %}
+                                    {% if item['type'] == "Habilidade" and item['data']['tipo'] == "subterfugio" %}
+                                        <tr>
+                                            <td class='mediaeval' style='font-size: 80%;'><a class='roll_hab' data-item="{{ item['_id'] }}">{{ item['name'] }}</a></td>
+                                            <td class='mediaeval'><input style='width: 30px; text-align:center;' type='number' class='hab_nivel' data-hab="{{item['_id']}}" value="{{item['data']['nivel']}}"/></td>
+                                            <td><a class='remove_hab' data-hab="{{item['_id']}}"><i class='fas fa-trash'></i></a></td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        </div>
+                        <div class="col-4">
+                            <table class="table table-striped table_h_inf">
+                                <caption class="caption-top fairyDust" style="text-align: center;"><h3>Influência</h3></caption>
+                                <tr>
+                                    <th class="mediaeval">Habilidade</th>
+                                    <th class="mediaeval">Nível</th>
+                                    <th class="mediaeval">Del</th>
+                                </tr>
+                                {% for item in items_pers %}
+                                    {% if item['type'] == "Habilidade" and item['data']['tipo'] == "influencia" %}
+                                        <tr>
+                                            <td class='mediaeval' style='font-size: 80%;'><a class='roll_hab' data-item="{{ item['_id'] }}">{{ item['name'] }}</a></td>
+                                            <td class='mediaeval'><input style='width: 30px; text-align:center;' type='number' class='hab_nivel' data-hab="{{item['_id']}}" value="{{item['data']['nivel']}}"/></td>
+                                            <td><a class='remove_hab' data-hab="{{item['_id']}}"><i class='fas fa-trash'></i></a></td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        </div>
+                        <div class="col-4">
+                            <table class="table table-striped table_h_ger">
+                                <caption class="caption-top fairyDust" style="text-align: center;"><h3>Geral</h3></caption>
+                                <tr>
+                                    <th class="mediaeval">Habilidade</th>
+                                    <th class="mediaeval">Nível</th>
+                                    <th class="mediaeval">Del</th>
+                                </tr>
+                                {% for item in items_pers %}
+                                    {% if item['type'] == "Habilidade" and item['data']['tipo'] == "geral" %}
+                                        <tr>
+                                            <td class='mediaeval' style='font-size: 80%;'><a class='roll_hab' data-item="{{ item['_id'] }}">{{ item['name'] }}</a></td>
+                                            <td class='mediaeval'><input style='width: 30px; text-align:center;' type='number' class='hab_nivel' data-hab="{{item['_id']}}" value="{{item['data']['nivel']}}"/></td>
+                                            <td><a class='remove_hab' data-hab="{{item['_id']}}"><i class='fas fa-trash'></i></a></td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="combate" role="tabpanel" aria-labelledby="combate-tab"> <!-- Tab Combate -->
+                    <div class="row dados">
+                        <div class="col-3" style="text-align: right;">
+                            <label><h4 class="mediaeval">Pontos para Técnicas de Combate:</h4></label>
+                        </div>
+                        <div class="col-2">
+                            <h4 class="mediaeval"><input name="data.pontos_tec" value="{{personagem.pontos_tec}}" type="number" style="width: 60px; text-align:center" readonly/></h4>
+                        </div>
+                        <div class="col-2 ">
+                            <label><h4 class='mediaeval'>Def. Oponente:</h4></label>
+                        </div>
+                        <div class="col-1">
+                            <h4 class="mediaeval"><select title="Tipo da defesa do oponente." name="data.inf_ataque.cat_def" type="text" style="width:40px; ">
+                                <option value="L">L</option>
+                                <option value="M">M</option>
+                                <option value="P">P</option>
+                            </select></h4>
+                        </div>
+                        <div class="col-1">
+                            <h4 class="mediaeval"><input title="Valor da defesa do oponente." name="data.inf_ataque.valor_def" type="number" style="width: 40px; text-align:center;"/></h4>
+                        </div>
+                        <div class="col-2">
+                            <label><h4 class="mediaeval">Bônus/Penalidade:</h4></label>
+                        </div>
+                        <div class="col-md-1 col-2">
+                            <h4 class="mediaeval"><input title="Bônus/Penalidade será aplicado a todos os ataques.(Nenhum valor, preencher zero)" name="data.inf_ataque.bonus" type="number" style='width:40px; text-align:center;'/></h4>
+                        </div>
+                    </div>
+                    <div class="row dados" style="margin-bottom: 20px;">
+                        <div class="col-12">
+                            <table class="table table-striped table_combate_items">
+                                <tr style="text-align: left;">
+                                    <th class="mediaeval">Ataque</th>
+                                    <th class="mediaeval">Nível</th>
+                                    <th class="mediaeval">Munição</th>
+                                    <th class="mediaeval">Alcance</th>
+                                    <th class="mediaeval">Coluna+</th>
+                                    <th class="mediaeval">Dano+</th>
+                                    <th class="mediaeval">L</th>
+                                    <th class="mediaeval">M</th>
+                                    <th class="mediaeval">P</th>
+                                    <th class="mediaeval">100%</th>
+                                    <th class="mediaeval">Del</th>
+                                </tr>
+                                {% for item in items_pers %}
+                                    {% if item['type'] == "Combate" %}
+                                        <tr class="item" data-combate="{{item['_id']}}">
+                                            <td class="mediaeval">
+                                                <a class="roll_comb" data-item="{{item['_id']}}">{{item['name']}}</a>
+                                            </td>
+                                            <td class="mediaeval">
+                                                <input type="number" class="nivel_comb" value="{{item['data']['nivel']}}" data-combate="{{item['name']}}" style="width:40px;text-align:center;"/>
+                                            </td>
+                                            <td class="mediaeval">
+                                                <input type="number" class="municao" value="{{item['data']['municao']}}" data-combate="{{item['name']}}" style="width:40px;text-align:center;"/>
+                                            </td>
+                                            <td class="mediaeval">{{item['data']['alcance']}}</td>
+                                            <td class="mediaeval">
+                                                <input type="number" class="bonus_coluna" value="{{item['data']['bonus_magico']}}" data-combate="{{ item['name'] }}" style="width:40px;text-align:center;"/>
+                                            </td>
+                                            <td class="mediaeval">
+                                                <input type="number" class="bonus_dano" value="{{ item['data']['peso']}}" data-combate="{{ item['name'] }}" style="width:40px;text-align:center;"/>
+                                            </td>
+                                            <td class="mediaeval">{{ item['data']['nivel']|int + personagem['atributos_'+item['data']['bonus']] + item['data']['bonus_magico']|int + item['data']['def_l']|int }}</td>
+                                            <td class="mediaeval">{{ item['data']['nivel']|int + personagem['atributos_'+item['data']['bonus']] + item['data']['bonus_magico']|int + item['data']['def_m']|int }}</td>
+                                            <td class="mediaeval">{{ item['data']['nivel']|int + personagem['atributos_'+item['data']['bonus']] + item['data']['bonus_magico']|int + item['data']['def_p']|int }}</td>
+                                            <td class="mediaeval">{{ item['data']['dano']['d100']}}</td>
+                                            <td>
+                                                <a class="remove_comb" data-combate="{{ item['_id'] }}"><i class="fas fa-trash"></i></a>
+                                            </td> 
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="table table-striped table_defesa">
+                                <tr style="text-align: left;">
+                                    <th class="mediaeval">Equipamento De Defesa</th>
+                                    <th class="mediaeval">Def. Base</th>
+                                    <th class="mediaeval">Absorção</th>
+                                    <th class="mediaeval">Del</th>
+                                </tr>
+                                {% for item in items_pers %}
+                                    {% if item['type'] == "Defesa" %}
+                                        <tr>
+                                            <td class="mediaeval">{{item['name']}}</td>
+                                            <td class="mediaeval">{{ item['data']['defesa_base']['tipo']  + item['data']['defesa_base']['valor']|string }}</td>
+                                            <td class="mediaeval">{{ item['data']['absorcao'] }}</td>
+                                            <td>
+                                                <a class="remove_defesa" data-defesa="{{ item['_id'] }}"><i class="fas fa-trash"></i></a>
+                                            </td> 
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        </div>
+                        <div class="col-6">
+                            <table class="table table-striped table_tecnica">
+                                <tr>
+                                    <th class="mediaeval">Técnica de Combate</th>
+                                    <th class="mediaeval">Nível</th>
+                                    <th class="mediaeval">Total</th>
+                                    <th class="mediaeval">Categoria</th>
+                                    <th class="mediaeval">Del</th>
+                                </tr>
+                                {% for item in items_pers %}
+                                    {% if item['type'] == "TecnicasCombate" %}
+                                        <tr>
+                                            <td class="mediaeval"><a class="roll_tec" data-item="{{ item['_id'] }}">{{item['name']}}</a></td>
+                                            <td class="mediaeval">
+                                                <input type="number" class="nivel_tecnica" value="{{item['data']['nivel']}}" data-tecnica="{{item['_id']}}" style="width:40px;text-align:center;"/>
+                                            </td>
+                                            <td class="mediaeval" style="text-align: center;">{{ item['data']['total'] }}</td>
+                                            <td class="mediaeval">{{ item['data']['categoria'] }}</td>
+                                            <td>
+                                                <a class="remove_tecnica" data-tecnica="{{ item['_id'] }}"><i class="fas fa-trash"></i></a>
+                                            </td> 
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="magia" role="tabpanel" aria-labelledby="magia-tab"> <!-- Tab Magia -->
+                    <div class="row">
+                        <div class="col-2"></div>
+                        <div class="col-3" style="text-align: right;">
+                            <label><h4 class="mediaeval">Pontos para Magías:</h4></label>
+                        </div>
+                        <div class="col-2">
+                            <h4 class="mediaeval"><input name="data.pontos_mag" type="number" value="{{personagem.pontos_mag}}" style="width: 60px; text-align:center;" readonly/></h4>
+                        </div>
+                        <div class="col-7"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table table-striped table_magias_pers">
+                                <tr>
+                                    <th class="mediaeval">Magia</th>
+                                    <th class="mediaeval">Nível</th>
+                                    <th class="mediaeval">Total</th>
+                                    <th class="mediaeval">Del</th>
+                                </tr>
+                                {% for item in items_pers %}
+                                    {% if item['type'] == "Magia" %}
+                                        <tr>
+                                            <td class='mediaeval'>
+                                                <a class="roll_magia" data-item="{{ item['_id'] }}">{{item['name']}}</a>
+                                            </td>
+                                            <td class="mediaeval">
+                                                <input type="number" class="nivel_magia" value="{{item['data']['nivel']}}" data-magia="{{item['_id']}}" style="width:40px;text-align:center;"/>
+                                            </td>
+                                            <td class="mediaeval">{{ item['data']['total']['valor'] }}</td>
+                                            <td>
+                                                <a class="remove_magia" data-magia="{{ item['_id'] }}"><i class="fas fa-trash"></i></a>
+                                            </td> 
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pertences" role="tabpanel" aria-labelledby="pertences-tab"> <!-- Tab Pertences -->
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table table-striped table_pert_pers">
+                                <tr>
+                                    <th class="mediaeval">Pertence</th>
+                                    <th class="mediaeval">Quantidade</th>
+                                    <th class="mediaeval">Peso(Kg)</th>
+                                    <th class="mediaeval">Total(Kg)</th>
+                                    <th class="mediaeval">Preço(Unid)</th>
+                                    <th class="mediaeval">Mover</th>
+                                    <th class="mediaeval">Del</th>
+                                </tr>
+                                {% for item in items_pers %}
+                                    {% if item['type'] == "Pertence" and not item['data']['inTransport'] %}
+                                        <tr>
+                                            <td class="mediaeval">{{item['name']}}</td>
+                                            <td class="mediaeval">
+                                                <input type="number" class="qnt_pert" value="{{item['data']['quant']}}" data-pertence="{{item['_id']}}" style="width:40px;text-align:center;"/>
+                                            </td>
+                                            <td class="mediaeval" style="text-align:center;">{{ "%.2f" % item['data']['peso']|float}}</td>
+                                            <td class="mediaeval" style="text-align:center;">{{ "%.2f" % (item['data']['quant'] * item['data']['peso'])|float}}</td>
+                                            <td class="mediaeval" style="text-align:center;">{{item['data']['preco']}}</td>
+                                            <td>
+                                                <a class="movePertence" title="Mover para Transporte" data-pertence="{{item['_id']}}"><i class="fas fa-horse"></i></a>
+                                            </td>
+                                            <td>
+                                                <a class="remove_pertence" data-pertence="{{ item['_id'] }}"><i class="fas fa-trash"></i></a>
+                                            </td> 
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2"></div>
+                        <div class="col-3">
+                            <label><h4 class="mediaeval">Carga no transporte(Kg):</h4></label>
+                        </div>
+                        <div class="col-2">
+                            <h4 class="mediaeval"><input style="width: 60px; text-align:center;" name="data.carga_transp.value" type="number" value="{{'%.2f' % personagem.carga_transp_value|float}}" title="Carga em transporte." readonly/></h4>
+                        </div>
+                        <div class="col-1"><label><h4 class="mediaeval">/</h4></label></div>
+                        <div class="col-2">
+                            <h4 class="mediaeval"><input style="width: 60px; text-align:center;" name="data.carga_transp.max" type="number" value="{{'%.2f' % personagem.carga_transp_max|float}}" title="Carga máxima suportada em seus transportes." readonly/></h4>
+                        </div>
+                        <div class="col-2"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="table table-striped table_transp_pers">
+                                <tr>
+                                    <th class="mediaeval">Transporte</th>
+                                    <th class="mediaeval">Cap.Carga(Kg)</th>
+                                    <th class="mediaeval">Cap.Pessoas</th>
+                                    <th class="mediaeval">Del</th>
+                                </tr>
+                                {% for item in items_pers %}
+                                    {% if item['type'] == "Transporte" %}
+                                        <tr>
+                                            <td class="mediaeval">{{item['name']}}</td>
+                                            <td class="mediaeval">{{item['data']['capacidade']['carga']}}</td>
+                                            <td class="mediaeval">{{item['data']['capacidade']['pessoas']}}</td>
+                                            <td>
+                                                <a class="remove_transporte" data-transporte="{{ item['_id'] }}"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        </div>
+                        <div class="col-6">  <!--Pertences em transporte-->
+                            <table class="table table-striped table_pert_transp">
+                                <tr>
+                                    <th class="mediaeval">Pertence em Transporte</th>
+                                    <th class="mediaeval">Qtd</th>
+                                    <th class="mediaeval">Peso</th>
+                                    <th class="mediaeval">Mover</th>
+                                    <th class="mediaeval">Del</th>
+                                </tr>
+                                {% for item in items_pers %}
+                                    {% if item['type'] == "Pertence" and item['data']['inTransport'] %}
+                                        <tr>
+                                            <td class="mediaeval">{{item['name']}}</td>
+                                            <td class="mediaeval">{{item['data']['quant']}}</td>
+                                            <td class="mediaeval">{{ "%.2f" % item['data']['peso']|float}}</td>
+                                            <td>
+                                                <a class="movePertence" title="Mover para o corpo" data-pertence="{{item['_id']}}"><i class="fas fa-user"></i></a>
+                                            </td>
+                                            <td>
+                                                <a class="remove_pertence" data-pertence="{{ item['_id'] }}"><i class="fas fa-trash"></i></a>
+                                            </td> 
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="efeitos" role="tabpanel" aria-labelledby="efeitos-tab"> <!-- Tab Efeitos -->
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table table-striped efeitos_table">
+                                <tr>
+                                    <th class="mediaeval">Efeito</th>
+                                    <th class="mediaeval">Atributo</th>
+                                    <th class="mediaeval">Tipo</th>
+                                    <th class="mediaeval">Valor</th>
+                                    <th class="mediaeval">Ativo</th>
+                                    <th class="mediaeval">Del</th>
+                                </tr>
+                                {% for item in items_pers %}
+                                    {% if item['type'] == "Efeito" %}
+                                        <tr>
+                                            <td class="mediaeval">{{item['name']}}</td>
+                                            <td class="mediaeval">
+                                                <select class="efeito_atributo" data-item="{{ item['_id'] }}" value="{{ item['data']['atributo'] }}">
+                                                    {% if item['data']['atributo'] == "INT" %}
+                                                    <option value="INT" selected>INT</option>
+                                                    {% else %}
+                                                    <option value="INT">INT</option>
+                                                    {% endif %}
+                                                    {% if item['data']['atributo'] == "CAR" %}
+                                                    <option value="CAR" selected>CAR</option>
+                                                    {% else %}
+                                                    <option value="CAR">CAR</option>
+                                                    {% endif %}
+                                                    {% if item['data']['atributo'] == "AUR" %}
+                                                    <option value="AUR" selected>AUR</option>
+                                                    {% else %}
+                                                    <option value="AUR">AUR</option>
+                                                    {% endif %}
+                                                    {% if item['data']['atributo'] == "FOR" %}
+                                                    <option value="FOR" selected>FOR</option>
+                                                    {% else %}
+                                                    <option value="FOR">FOR</option>
+                                                    {% endif %}
+                                                    {% if item['data']['atributo'] == "FIS" %}
+                                                    <option value="FIS" selected>FIS</option>
+                                                    {% else %}
+                                                    <option value="FIS">FIS</option>
+                                                    {% endif %}
+                                                    {% if item['data']['atributo'] == "AGI" %}
+                                                    <option value="AGI" selected>AGI</option>
+                                                    {% else %}
+                                                    <option value="AGI">AGI</option>
+                                                    {% endif %}
+                                                    {% if item['data']['atributo'] == "PER" %}
+                                                    <option value="PER" selected>PER</option>
+                                                    {% else %}
+                                                    <option value="PER">PER</option>
+                                                    {% endif %}
+                                                    {% if item['data']['atributo'] == "EF" %}
+                                                    <option value="EF" selected>EF</option>
+                                                    {% else %}
+                                                    <option value="EF">EF</option>
+                                                    {% endif %}
+                                                    {% if item['data']['atributo'] == "ABS" %}
+                                                    <option value="ABS" selected>Absorção</option>
+                                                    {% else %}
+                                                    <option value="ABS">Absorção</option>
+                                                    {% endif %}
+                                                    {% if item['data']['atributo'] == "DEF" %}
+                                                    <option value="DEF" selected>Defesa</option>
+                                                    {% else %}
+                                                    <option value="DEF">Defesa</option>
+                                                    {% endif %}
+                                                    {% if item['data']['atributo'] == "KMA" %}
+                                                    <option value="KMA" selected>Karma</option>
+                                                    {% else %}
+                                                    <option value="KMA">Karma</option>
+                                                    {% endif %}
+                                                    {% if item['data']['atributo'] == "VB" %}
+                                                    <option value="VB" selected>VB</option>
+                                                    {% else %}
+                                                    <option value="VB">VB</option>
+                                                    {% endif %}
+                                                    {% if item['data']['atributo'] == "RFIS" %}
+                                                    <option value="RFIS" selected>R.Física</option>
+                                                    {% else %}
+                                                    <option value="RFIS">R.Física</option>
+                                                    {% endif %}
+                                                    {% if item['data']['atributo'] == "RMAG" %}
+                                                    <option value="RMAG" selected>R.Magia</option>
+                                                    {% else %}
+                                                    <option value="RMAG">R.Magia</option>
+                                                    {% endif %}
+                                                    {% if item['data']['atributo'] == "PHAB" %}
+                                                    <option value="PHAB" selected>Pontos Hab.</option>
+                                                    {% else %}
+                                                    <option value="PHAB">Pontos Hab.</option>
+                                                    {% endif %}
+                                                    {% if item['data']['atributo'] == "PTEC" %}
+                                                    <option value="PTEC" selected>Pontos Tec.</option>
+                                                    {% else %}
+                                                    <option value="PTEC">Pontos Tec.</option>
+                                                    {% endif %}
+                                                    {% if item['data']['atributo'] == "PARM" %}
+                                                    <option value="PARM" selected>Pontos Arm.</option>
+                                                    {% else %}
+                                                    <option value="PARM">Pontos Arm.</option>
+                                                    {% endif %}
+                                                    {% if item['data']['atributo'] == "PMAG" %}
+                                                    <option value="PMAG" selected>Pontos Mag.</option>
+                                                    {% else %}
+                                                    <option value="PMAG">Pontos Mag.</option>
+                                                    {% endif %}
+                                                </select>
+                                            </td>
+                                            <td class="mediaeval">
+                                                <select class="efeito_tipo" data-item="{{ item['_id'] }}" value="{{ item['data']['tipo'] }}">
+                                                    {% if item['data']['tipo'] == "+" %}
+                                                    <option value="+" selected>+</option>
+                                                    {% else %}
+                                                    <option value="+">+</option>
+                                                    {% endif %}
+                                                    {% if item['data']['tipo'] == "-" %}
+                                                    <option value="-" selected>-</option>
+                                                    {% else %}
+                                                    <option value="-">-</option>
+                                                    {% endif %}
+                                                    {% if item['data']['tipo'] == "/" %}
+                                                    <option value="/" selected>/</option>
+                                                    {% else %}
+                                                    <option value="/">/</option>
+                                                    {%endif%}
+                                                    {% if item['data']['tipo'] == "*" %}
+                                                    <option value="*" selected>*</option>
+                                                    {% else %}
+                                                    <option value="*">*</option>
+                                                    {%endif%}
+                                                </select>
+                                            </td>
+                                            <td class="mediaeval">
+                                                <input type="number" class="efeito_valor" value="{{item['data']['valor']}}" data-item="{{item['_id']}}" style="width:40px;text-align:center;"/>
+                                            </td>
+                                            <td>
+                                                {% if item['data']['ativo'] %}
+                                                    <a class="ativaEfeito" data-item="{{item['_id']}}" title="Desativar"><i class="fas fa-check-circle"></i></a>
+                                                {% else %}
+                                                    <a class="ativaEfeito" data-item="{{item['_id']}}" title="Ativar"><i class="far fa-times-circle"></i></a>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <a class="remove_efeito" data-efeito="{{ item['_id'] }}"><i class="fas fa-trash"></i></a>
+                                            </td> 
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        
+        </div>
+        <div class="container ">
+            <div class="row mhidden"> <!-- Items -->
+                <div class="col-12">
+                    <input type='text' name='data.items' value="{{personagem.items}}" class='actor_items' style='width:100%'/>
+                    <input type='number' name='data.carga.valor_s' value="{{personagem.carga_valor_s}}"/>
+                    <input type='number' name='data.carga.max' value="{{personagem.carga_max}}"/>
+                    {% if personagem.carga_sobrecarga %}
+                    <input type='checkbox' name='data.carga.sobrecarga' checked/>
+                    {% else %}
+                    <input type='checkbox' name='data.carga.sobrecarga'/>
+                    {% endif %}
+                    {% if personagem.carga_transp_hasTransp %}
+                    <input type='checkbox' name='data.carga_transp.hasTransp' checked/>
+                    {% else %}
+                    <input type='checkbox' name='data.carga_transp.hasTransp'/>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src='{{ url_for("static", filename="js/personagem_cp.js") }}'></script>
+{% endblock %}

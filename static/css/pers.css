@@ -1,0 +1,217 @@
+.mhidden {
+    display: none !important;
+}
+
+.mhidden2 {
+    visibility: hidden !important;
+}
+
+a {
+    color:black;
+    text-decoration: none;
+}
+
+a:hover, button:hover {
+    color: black;
+    /*text-shadow: 0px 0px 10px rgb(194, 1, 1);*/
+    cursor: pointer;
+    filter:drop-shadow(0px 0px 5px rgb(109, 1, 1));
+}
+
+@font-face {
+    font-family: 'FairyDustB';
+    src: url('/static/fonts/PrinceValiant.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'GoudyMediaeval';
+    src: url('/static/fonts/NewRocker-Regular.ttf') format('truetype');
+}
+.fairyDust{
+    font-family: "FairyDustB";
+    font-size: 185%;
+    font-weight: bolder;
+}
+.mediaeval {
+    font-family: "GoudyMediaeval";
+    font-size: 80%;
+}
+.bg-img {
+    background-image: url('/static/assets/Borda\ Dos\ Livros\ Tagmar\ 3.0.png');
+    background-repeat: no-repeat;
+    background-size:cover;
+}
+.bg-items {
+    background-image: url('/static/assets/fundo_items.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+body {
+    background-image: url('/static/assets/fundo_items.png');
+    background-repeat:repeat;
+    background-size:contain;
+}
+input, select, textarea {
+    background: rgba(0, 0, 0, 0) !important;
+    border-radius: 5px;
+    border-width: 1px;
+}
+
+.nav-tabs {
+    background: rgba(0, 0, 0, 0);
+}
+ul.nav-tabs li.nav-item button {
+    border-width: 1px;
+    border-color: black;
+    border-radius: 0;
+    height: 30px;
+    text-align: center;
+    padding-bottom: 30px;
+}
+button, .btn {
+    background-color:rgba(0, 0, 0, 0) !important;
+    border-width: 1px;
+    border-color: black;
+    border-radius: 0;
+    height: 30px;
+    text-align: center;
+    padding-bottom: 30px;
+}
+button:hover, .btn:hover {
+    color: black;
+    text-shadow: 0px 0px 10px rgb(109, 1, 1);
+    border-color: black;
+    box-shadow: inset 0px 0px 5px 2px rgb(109, 1, 1);
+}
+.nav_button {
+    width: 125px;
+}
+.nav_button_npc {
+    width: 150px;
+}
+ul.nav-tabs li.nav-item button:hover {
+    background-color:rgba(0, 0, 0, 0) !important;
+    color: black;
+    text-shadow: 0px 0px 10px rgb(109, 1, 1);
+    border-color: black;
+    box-shadow: inset 0px 0px 5px 2px rgb(109, 1, 1);
+}
+ul.nav-tabs li.nav-item button.active {
+    background-color:rgba(0, 0, 0, 0) !important;
+    color: black;
+    text-shadow: 0px 0px 10px rgb(109, 1, 1);
+    border-color: black;
+    box-shadow: inset 0px 0px 5px 2px rgb(109, 1, 1);
+}
+.borda-m {
+    border: 6px solid transparent;
+    border-image-source: url('/static/assets/panel2.png');
+    border-image-slice: 20;
+}
+table caption {
+    color: black;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+.list_items {
+    height: 80vh;
+    overflow-y: scroll;
+    overflow-x:hidden;
+    max-width: 350px;
+}
+.items_col {
+    height: 100vh;
+    overflow-y: scroll;
+    min-width:400px;
+}
+.ficha_cont {
+    height: 100vh;
+    overflow-y: scroll;
+    min-width: 850px;
+}
+td, th {
+    line-height: 10px !important;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+background: rgba(0, 0, 0, 0); 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: rgba(109, 1, 1, 0.274); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(109, 1, 1, 0.89);
+}
+
+input:focus, select:focus, textarea:focus {
+    box-shadow: 0px 0px 5px 3px rgba(109, 1, 1, 0.89) !important;
+}
+
+table {
+    margin-bottom: 2px !important;
+}
+
+.mensage_uno {
+    font-size: 100%;
+    border-width: 2px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-style: inset;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 10px;
+}
+
+.chat_content {
+    overflow-y: scroll;
+}
+
+.chat_content .chat_msg {
+    background-color: rgba(109, 1, 1, 0.305);
+}
+
+.rola_dano {
+    font-size: 150%;
+    background-color: black;
+    color: white;
+}
+.chat_msg p {
+    font-family: "GoudyMediaeval";
+    font-size: 90%;
+}
+.chat_msg {
+    font-family: "GoudyMediaeval";
+    font-size: 90%;
+}
+.chat_msg h4 {
+    font-family: "GoudyMediaeval";
+    font-size: 100%;
+}
+.chat_msg h1 {
+    font-family: "GoudyMediaeval";
+    font-size: 120%;
+}
+.chat_msg  b {
+    color:rgb(109, 1, 1);
+}
+.chat_msg  u {
+    color:rgb(109, 1, 1);
+}
+

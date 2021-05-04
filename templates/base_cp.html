@@ -1,0 +1,630 @@
+{% extends 'headMaster.html' %}
+
+        {% block headMaster %}
+        {% endblock %}
+
+        {% block bodyMaster %}
+        <form action="/update_cp/{{personagem.id}}" method="POST" onkeydown="return event.key != 'Enter';">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <div class="container borda-m bg-items items_col">
+                        <div class="row">
+                            <div class="col-12">
+                                <ul class="nav nav-tabs justify-content-center" id="menuTab" role="tablist" style="margin-bottom: 10px;">
+                                    <li class="nav-item" role='presentation'>
+                                        <button class="mediaeval nav-link active" id="items-tab" data-bs-toggle="tab" data-bs-target="#items" type='button' role='tab' aria-controls="items" aria-selected="true">Itens</button> 
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="mediaeval nav-link" id="rolagens-tab" data-bs-toggle="tab" data-bs-target="#rolagens" type="button" role="tab" aria-controls="rolagens" aria-selected="false">Rolagens</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="mediaeval nav-link" id="cadastro-tab" data-bs-toggle="tab" data-bs-target="#cadastro" type="button" role="tab" aria-controls="cadastro" aria-selected="false">Cadastro</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tab-content" id="menuTabContent">
+                            <div class="tab-pane fade show active" id="items" role="tabpanel" aria-labelledby="items-tab">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <ul class="nav nav-tabs justify-content-center" id="itensTab" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="mediaeval nav-link active" id="racas-tab" data-bs-toggle="tab" data-bs-target="#racas" type="button" role="tab" aria-controls="racas" aria-selected="true">Raças</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="mediaeval nav-link" id="profissoes-tab" data-bs-toggle="tab" data-bs-target="#profissoes" type="button" role="tab" aria-controls="profissoes" aria-selected="false">Profissões</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="mediaeval nav-link" id="hab_items-tab" data-bs-toggle="tab" data-bs-target="#hab_items" type="button" role="tab" aria-controls="hab_items" aria-selected="false">Habilidades</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="mediaeval nav-link" id="comb_items-tab" data-bs-toggle="tab" data-bs-target="#comb_items" type="button" role="tab" aria-controls="comb_items" aria-selected="false">Ataques</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="mediaeval nav-link" id="defesas-tab" data-bs-toggle="tab" data-bs-target="#defesas" type="button" role="tab" aria-controls="defesas" aria-selected="false">Defesas</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="mediaeval nav-link" id="tecnicas-tab" data-bs-toggle="tab" data-bs-target="#tecnicas" type="button" role="tab" aria-controls="tecnicas" aria-selected="false">Tecnicas</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="mediaeval nav-link" id="magias_items-tab" data-bs-toggle="tab" data-bs-target="#magias_items" type="button" role="tab" aria-controls="magias_items" aria-selected="false">Magias</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="mediaeval nav-link" id="pertences_items-tab" data-bs-toggle="tab" data-bs-target="#pertences_items" type="button" role="tab" aria-controls="pertences_items" aria-selected="false">Pertences</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="mediaeval nav-link" id="transportes_items-tab" data-bs-toggle="tab" data-bs-target="#transportes_items" type="button" role="tab" aria-controls="transportes_items" aria-selected="false">Transportes</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="mediaeval nav-link" id="efeitos_items-tab" data-bs-toggle="tab" data-bs-target="#efeitos_items" type="button" role="tab" aria-controls="efeitos_items" aria-selected="false">Efeitos</button>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content list_items" id="itensTabContent">
+                                            <div class="tab-pane fade show active" id="racas" role="tabpanel" aria-labelledby="racas-tab">
+                                                <h4 class="mediaeval" style="margin-top:10px;"><input type='text' placeholder="Pesquisar" style="width: 100%;" class="searchRaca"/></h4>
+                                                <table class="table table-striped table_raca">
+                                                    <tr>
+                                                        <th class="mediaeval">Raças</th>
+                                                        <th style="text-align: right;" class="mediaeval">Add</th>
+                                                    </tr>
+                                                    {% for raca in items.racas %}
+                                                        <tr>
+                                                            <td class="mediaeval racaName">{{ raca['name'] }}</td>
+                                                            <td style='text-align:right;'><a  class='btn_raca' data-raca='{{ raca|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane fade" id="profissoes" role="tabpanel" aria-labelledby="profissoes-tab">
+                                                <h4 class="mediaeval" style="margin-top:10px;"><input type='text' placeholder="Pesquisar" style="width: 100%;" class="searchProf"/></h4>
+                                                <table class="table table-striped table_prof">
+                                                    <tr>
+                                                        <th class="mediaeval">Profissões</th>
+                                                        <th style="text-align: right;" class="mediaeval">Add</th>
+                                                    </tr>
+                                                    {% for prof in items.profissoes %}
+                                                        <tr>
+                                                            <td class="mediaeval profName">{{ prof['name'] }}</td>
+                                                            <td style='text-align:right;'><a  class='btn_prof' data-prof='{{ prof|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane fade" id="hab_items" role="tabpanel" aria-labelledby="hab_items-tab">
+                                                <h4 class="mediaeval" style="margin-top:10px;"><input type='text' placeholder="Pesquisar" style="width: 100%;" class="searchHab"/></h4>
+                                                <table class='table table-striped table_hab_items'>
+                                                    <tr>
+                                                        <th class="mediaeval">PROFISSIONAL</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for hab in items.habilidades %}
+                                                        {% if hab['data']['tipo'] == 'profissional' %}
+                                                            <tr>
+                                                                <td class="mediaeval habName">{{ hab['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_hab" data-hab='{{ hab|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class='table table-striped table_hab_items'>
+                                                    <tr>
+                                                        <th class="mediaeval">MANOBRA</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for hab in items.habilidades %}
+                                                        {% if hab['data']['tipo'] == 'manobra' %}
+                                                            <tr>
+                                                                <td class="mediaeval habName">{{ hab['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_hab" data-hab='{{ hab|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class='table table-striped table_hab_items'>
+                                                    <tr>
+                                                        <th class="mediaeval">CONHECIMENTO</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for hab in items.habilidades %}
+                                                        {% if hab['data']['tipo'] == 'conhecimento' %}
+                                                            <tr>
+                                                                <td class="mediaeval habName">{{ hab['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_hab" data-hab='{{ hab|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class='table table-striped table_hab_items'>
+                                                    <tr>
+                                                        <th class="mediaeval">SUBTERFÚGIO</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for hab in items.habilidades %}
+                                                        {% if hab['data']['tipo'] == 'subterfugio' %}
+                                                            <tr>
+                                                                <td class="mediaeval habName">{{ hab['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_hab" data-hab='{{ hab|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class='table table-striped table_hab_items'>
+                                                    <tr>
+                                                        <th class="mediaeval">INFLUÊNCIA</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for hab in items.habilidades %}
+                                                        {% if hab['data']['tipo'] == 'influencia' %}
+                                                            <tr>
+                                                                <td class="mediaeval habName">{{ hab['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_hab" data-hab='{{ hab|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class='table table-striped table_hab_items'>
+                                                    <tr>
+                                                        <th class="mediaeval">GERAL</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for hab in items.habilidades %}
+                                                        {% if hab['data']['tipo'] == 'geral' %}
+                                                            <tr>
+                                                                <td class="mediaeval habName">{{ hab['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_hab" data-hab='{{ hab|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane fade" id="comb_items" role="tabpanel" aria-labelledby="comb_items-tab">
+                                                <h4 class="mediaeval" style="margin-top:10px;"><input type='text' placeholder="Pesquisar" style="width: 100%;" class="searchComb"/></h4>
+                                                <table class="table table-striped table_combate_items">
+                                                    <tr>
+                                                        <th class="mediaeval">Combate Desarmado</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for combate in items.combates %}
+                                                        {% if combate['data']['tipo'] == "CD" %}
+                                                            <tr>
+                                                                <td class="mediaeval combName">{{ combate['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_combate" data-combate='{{ combate|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class="table table-striped table_combate_items" style="margin-top: 20px;">
+                                                    <tr>
+                                                        <th class="mediaeval">Combate de Imobilização</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for combate in items.combates %}
+                                                        {% if combate['data']['tipo'] == "CI" %}
+                                                            <tr>
+                                                                <td class="mediaeval combName">{{ combate['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_combate" data-combate='{{ combate|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class="table table-striped table_combate_items" style="margin-top: 20px;">
+                                                    <tr>
+                                                        <th class="mediaeval">Corte Leve</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for combate in items.combates %}
+                                                        {% if combate['data']['tipo'] == "CL" %}
+                                                            <tr>
+                                                                <td class="mediaeval combName">{{ combate['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_combate" data-combate='{{ combate|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class="table table-striped table_combate_items" style="margin-top: 20px;">
+                                                    <tr>
+                                                        <th class="mediaeval">Corte Leve à Distância</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for combate in items.combates %}
+                                                        {% if combate['data']['tipo'] == "CLD" %}
+                                                            <tr>
+                                                                <td class="mediaeval combName">{{ combate['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_combate" data-combate='{{ combate|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class="table table-striped table_combate_items" style="margin-top: 20px;">
+                                                    <tr>
+                                                        <th class="mediaeval">Esmagamento Leve</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for combate in items.combates %}
+                                                        {% if combate['data']['tipo'] == "EL" %}
+                                                            <tr>
+                                                                <td class="mediaeval combName">{{ combate['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_combate" data-combate='{{ combate|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class="table table-striped table_combate_items" style="margin-top: 20px;">
+                                                    <tr>
+                                                        <th class="mediaeval">Corte Médio com Espadas</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for combate in items.combates %}
+                                                        {% if combate['data']['tipo'] == "CmE" %}
+                                                            <tr>
+                                                                <td class="mediaeval combName">{{ combate['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_combate" data-combate='{{ combate|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class="table table-striped table_combate_items" style="margin-top: 20px;">
+                                                    <tr>
+                                                        <th class="mediaeval">Corte Médio com Machados</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for combate in items.combates %}
+                                                        {% if combate['data']['tipo'] == "CmM" %}
+                                                            <tr>
+                                                                <td class="mediaeval combName">{{ combate['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_combate" data-combate='{{ combate|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class="table table-striped table_combate_items" style="margin-top: 20px;">
+                                                    <tr>
+                                                        <th class="mediaeval">Esmagamento Médio</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for combate in items.combates %}
+                                                        {% if combate['data']['tipo'] == "EM" %}
+                                                            <tr>
+                                                                <td class="mediaeval combName">{{ combate['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_combate" data-combate='{{ combate|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class="table table-striped table_combate_items" style="margin-top: 20px;">
+                                                    <tr>
+                                                        <th class="mediaeval">Penetração Média com Arcos</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for combate in items.combates %}
+                                                        {% if combate['data']['tipo'] == "PmA" %}
+                                                            <tr>
+                                                                <td class="mediaeval combName">{{ combate['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_combate" data-combate='{{ combate|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class="table table-striped table_combate_items" style="margin-top: 20px;">
+                                                    <tr>
+                                                        <th class="mediaeval">Penetração Média com Lanças</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for combate in items.combates %}
+                                                        {% if combate['data']['tipo'] == "PmL" %}
+                                                            <tr>
+                                                                <td class="mediaeval combName">{{ combate['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_combate" data-combate='{{ combate|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class="table table-striped table_combate_items" style="margin-top: 20px;">
+                                                    <tr>
+                                                        <th class="mediaeval">Corte Pesado com Espadas</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for combate in items.combates %}
+                                                        {% if combate['data']['tipo'] == "CpE" %}
+                                                            <tr>
+                                                                <td class="mediaeval combName">{{ combate['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_combate" data-combate='{{ combate|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class="table table-striped table_combate_items" style="margin-top: 20px;">
+                                                    <tr>
+                                                        <th class="mediaeval">Corte Pesado com Machados</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for combate in items.combates %}
+                                                        {% if combate['data']['tipo'] == "CpM" %}
+                                                            <tr>
+                                                                <td class="mediaeval combName">{{ combate['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_combate" data-combate='{{ combate|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class="table table-striped table_combate_items" style="margin-top: 20px;">
+                                                    <tr>
+                                                        <th class="mediaeval">Esmagamento Pesado</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for combate in items.combates %}
+                                                        {% if combate['data']['tipo'] == "EP" %}
+                                                            <tr>
+                                                                <td class="mediaeval combName">{{ combate['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_combate" data-combate='{{ combate|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class="table table-striped table_combate_items" style="margin-top: 20px;">
+                                                    <tr>
+                                                        <th class="mediaeval">Penetração Pesada</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for combate in items.combates %}
+                                                        {% if combate['data']['tipo'] == "PP" %}
+                                                            <tr>
+                                                                <td class="mediaeval combName">{{ combate['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_combate" data-combate='{{ combate|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class="table table-striped table_combate_items" style="margin-top: 20px;">
+                                                    <tr>
+                                                        <th class="mediaeval">Penetração Pesada com Arcos</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for combate in items.combates %}
+                                                        {% if combate['data']['tipo'] == "PpA" %}
+                                                            <tr>
+                                                                <td class="mediaeval combName">{{ combate['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_combate" data-combate='{{ combate|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class="table table-striped table_combate_items" style="margin-top: 20px;">
+                                                    <tr>
+                                                        <th class="mediaeval">Penetração Pesada com Bestas</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for combate in items.combates %}
+                                                        {% if combate['data']['tipo'] == "PpB" %}
+                                                            <tr>
+                                                                <td class="mediaeval combName">{{ combate['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_combate" data-combate='{{ combate|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                <table class="table table-striped table_combate_items" style="margin-top: 20px;">
+                                                    <tr>
+                                                        <th class="mediaeval">Ataques Magicos</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for combate in items.combates %}
+                                                        {% if combate['data']['tipo'] == "" or combate['data']['tipo'] == "MAG" %}
+                                                            <tr>
+                                                                <td class="mediaeval combName">{{ combate['name'] }}</td>
+                                                                <td style='text-align:right;'><a class="btn_combate" data-combate='{{ combate|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane fade" id="defesas" role="tabpanel" aria-labelledby="defesas-tab">
+                                                <h4 class="mediaeval" style="margin-top:10px;"><input type='text' placeholder="Pesquisar" style="width: 100%;" class="searchDef"/></h4>
+                                                {% for folder in items.defesas_folders %}
+                                                <table class="table table-striped table_defesas_items">
+                                                    <tr>
+                                                        <th class="mediaeval">{{ folder['name'] }}</th>
+                                                        <th class="mediaeval">Tipo</th>
+                                                        <th class="mediaeval">Absorção</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for defesa in items.defesas %}
+                                                        {% if defesa['folder'] == folder['id'] %}
+                                                        <tr>
+                                                            <td class="mediaeval defName">{{ defesa['name'] }}</td>
+                                                            <td class="mediaeval" style="text-align: center;">{{ defesa['data']['defesa_base']['tipo'] }} {{ defesa['data']['defesa_base']['valor'] }}</td>
+                                                            <td class="mediaeval" style="text-align: center;">{{ defesa['data']['absorcao'] }}</td>
+                                                            <td style='text-align:right;'><a class="btn_defesa" data-defesa='{{ defesa|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                        </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </table>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="tab-pane fade" id="tecnicas" role="tabpanel" aria-labelledby="tecnicas-tab">
+                                                <h4 class="mediaeval" style="margin-top:10px;"><input type='text' placeholder="Pesquisar" style="width: 100%;" class="searchTec"/></h4>
+                                                {% for folder in items.tecnicas_folders %}
+                                                    <table class="table table-striped tecnicas_items">
+                                                        <tr>
+                                                            <th class="mediaeval">{{ folder['name'] }}  {% if folder['name'] == "BASICA" %} - {{folder['parent_name']}} {% endif %}</th>
+                                                            <th class="mediaeval" style="text-align: right;">Custo</th>
+                                                            <th class="mediaeval" style="text-align: right;">Add</th>
+                                                        </tr>
+                                                        {% for tecnica in items.tecnicas %}
+                                                            {% if tecnica['folder'] == folder['id'] %}
+                                                                <tr>
+                                                                    <td class="mediaeval tecName">{{ tecnica['name'] }}</td>
+                                                                    <td class="mediaeval" style="text-align: right;">{{ tecnica['data']['custo'] }}</td>
+                                                                    <td style='text-align:right;'><a class="btn_tecnica" data-tecnica='{{ tecnica|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                                </tr>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </table>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="tab-pane fade" id="magias_items" role="tabpanel" aria-labelledby="magias_items-tab">
+                                                <h4 class="mediaeval" style="margin-top:10px;"><input type='text' placeholder="Pesquisar" style="width: 100%;" class="searchMag"/></h4>
+                                                {% for folder in items.magias_folders %}
+                                                    <table class="table table-striped magias_its">
+                                                        <tr>
+                                                            <th class="mediaeval">{{ folder['name'] }}  {% if folder['name'] == "BASICA" or folder['name'] == "BASICAS ANCESTRAIS" or folder['name'] == "BASICAS PERDIDAS" or folder['name'] == "BASICA PERDIDAS" %} - {{folder['parent_name']}} {% endif %}</th>
+                                                            <th class="mediaeval" style="text-align: right;">Custo</th>
+                                                            <th class="mediaeval" style="text-align: right;">Add</th>
+                                                        </tr>
+                                                        {% for magia in items.magias %}
+                                                            {% if magia['folder'] == folder['id'] %}
+                                                                <tr>
+                                                                    <td class="mediaeval magName">{{ magia['name'] }}</td>
+                                                                    <td class="mediaeval" style="text-align: right;">{{ magia['data']['custo'] }}</td>
+                                                                    <td style='text-align:right;'><a class="btn_magia" data-magia='{{ magia|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                                </tr>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </table>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="tab-pane fade" id="pertences_items" role="tabpanel" aria-labelledby="pertences_items-tab">
+                                                <h4 class="mediaeval" style="margin-top:10px;"><input type='text' placeholder="Pesquisar" style="width: 100%;" class="searchPert"/></h4>
+                                                {% for folder in items.pertences_folders %}
+                                                    <table class="table table-striped table_pertences_items">
+                                                        <tr>
+                                                            <th class="mediaeval">{{folder['name']}}</th>
+                                                            <th class="mediaeval" style="text-align: right;">Preço</th>
+                                                            <th class="mediaeval" style="text-align: right;">Add</th>
+                                                        </tr>
+                                                        {% for pertence in items.pertences %}
+                                                            {% if pertence['folder'] == folder['id'] %}
+                                                                <tr>
+                                                                    <td class="mediaeval pertName">{{ pertence['name'] }}</td>
+                                                                    <td class="mediaeval" style='text-align:right;'>{{ pertence['data']['preco'] }}</td>
+                                                                    <td style='text-align:right;'><a class="btn_pertence" data-pertence='{{ pertence|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                                </tr>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </table>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="tab-pane fade" id="transportes_items" role="tabpanel" aria-labelledby="transportes_items-tab">
+                                                <h4 class="mediaeval" style="margin-top:10px;"><input type='text' placeholder="Pesquisar" style="width: 100%;" class="searchTrans"/></h4>
+                                                <table class="table table-striped">
+                                                    <tr>
+                                                        <th class="mediaeval">Transporte</th>
+                                                        <th class="mediaeval">Pessoas</th>
+                                                        <th class="mediaeval">Carga(Kg)</th>
+                                                        <th class="mediaeval">Preço</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for transporte in items.transportes %}
+                                                        <tr>
+                                                            <td class="mediaeval transName">{{ transporte['name'] }}</td>
+                                                            <td class="mediaeval">{{ transporte['data']['capacidade']['pessoas'] }}</td>
+                                                            <td class="mediaeval">{{ transporte['data']['capacidade']['carga'] }}</td>
+                                                            <td class="mediaeval">{{ transporte['data']['preco'] }}</td>
+                                                            <td style='text-align:right;'><a class="btn_transporte" data-transporte='{{ transporte|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane fade" id="efeitos_items" role="tabpanel" aria-labelledby="efeitos_items-tab">
+                                                <h4 class="mediaeval" style="margin-top:10px;"><input type='text' placeholder="Pesquisar" style="width: 100%;" class="searchEfe"/></h4>
+                                                <table class="table table-striped">
+                                                    <tr>
+                                                        <th class="mediaeval">Efeito</th>
+                                                        <th class="mediaeval">Atributo</th>
+                                                        <th class="mediaeval">Tipo</th>
+                                                        <th class="mediaeval" style="text-align: right;">Add</th>
+                                                    </tr>
+                                                    {% for efeito in items.efeitos %}
+                                                        <tr>
+                                                            <td class="mediaeval efeName">{{efeito['name']}}</td>
+                                                            <td class="mediaeval">{{efeito['data']['atributo']}}</td>
+                                                            <td class="mediaeval">{{efeito['data']['tipo']}}</td>
+                                                            <td style='text-align:right;'><a class="btn_efeito" data-efeito='{{ efeito|tojson }}'><i class="fas fa-plus-square"></i></a></td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="rolagens" role="tabpanel" aria-labelledby="rolagens-tab"> <!-- Tab Rolagens -->
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-12 chat_content borda-m" style="height: 80vh;">
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-10"></div>
+                                        <div class="col-2">
+                                            <a class="apagar_chat btn" style="border-width: 0;" title="Apagar mensagens" onClick='clear_chat()'><i class="far fa-trash-alt"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class='col-12' style="text-align: center;">
+                                            <h5 class="fairyDust" style="font-size: 100%;">Rolagens Avulsas</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <h4 class="mediaeval"><input type='number' placeholder="F.Ataque" style="width: 80px;text-align:center;" class="fataque_avulso" /></h4>
+                                        </div>
+                                        <div class="col-5">
+                                            <h4 class="mediaeval"><input type='number' placeholder="F.Defesa" style="width: 80px;text-align:center;" class="fdefesa_avulso" /></h4>
+                                        </div>
+                                        <div class="col-2">
+                                            <h4 class="mediaeval"><a class="teste_avulso" title='Rolar teste de resistência.'><i class="fas fa-dice-d20"></i></a></h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-5"></div>
+                                        <div class="col-5">
+                                            <h4 class="mediaeval"><input type='number' placeholder="Coluna" style="width: 80px; text-align:center;" class="coluna_avulso" /></h4>
+                                        </div>
+                                        <div class="col-2">
+                                            <h4 class="mediaeval"><a class="roll_avulso" title="Rolar teste na tabela de resolução."><i class="fas fa-dice-d20"></i></a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="cadastro" role="tabpanel" aria-labelledby="cadastro-tab"> <!-- Tab Cadastro -->
+                                <div class="container">
+                                    <div class="row" style="margin-top: 20px;">
+                                        <div class="col-12">
+                                            <button class='mediaeval btn' type='submit' style="width: 100%;">Salvar Ficha</button>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top: 20px;">
+                                        <div class="col-12">
+                                            <a class='btn mediaeval btn_fromJson' role='button' href="/uploadFoundry_cp/{{personagem.id}}" style="width: 100%;">Importar JSON do Foundry Vtt</a>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top: 20px;">
+                                        <div class="col-12">
+                                            <a class='btn mediaeval btn_toJson' role='button' href="/tojson_cp/{{personagem.id}}" style="width: 100%;">Exportar para o Foundry Vtt</a>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top: 20px;">
+                                        <div class="col-12">
+                                            <a class='btn mediaeval' href="/" role='button' style="width: 100%;">Voltar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                {% block body %}{% endblock %}
+                
+            </div>
+        </div>
+        
+        <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/all.js') }}"></script>
+        <!--<script src="https://kit.fontawesome.com/0e5ae35cf3.js" crossorigin="anonymous"></script>-->
+        </form>
+    {% endblock %}

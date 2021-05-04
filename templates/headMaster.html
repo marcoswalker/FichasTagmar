@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src='{{ url_for("static", filename="js/jquery-3.6.0.min.js") }}'></script>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='assets/favicon.ico') }}">
+        <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+        <div class="alert alert-success alert-dismissible alert_sucess" role="alert" style="display:none; text-align:center;">
+            <h4 class="mediaeval sucess_msg"></h4>
+        </div>
+        {% block head %}{% endblock %}
+        <script type=text/javascript>
+            $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        </script>
+    </head>
+</html>
+<body>
+    {% block bodyMaster %}
+    {% endblock %}
+</body>

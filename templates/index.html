@@ -1,0 +1,78 @@
+{% extends 'headMaster.html' %}
+
+        {% block headMaster %}
+            {% block head %}
+                <title>Pagina Inicial</title>
+                <link href="{{ url_for('static', filename='css/pers.css') }}" rel="stylesheet">
+            {% endblock %}
+        {% endblock %}
+
+
+        {% block bodyMaster %}
+        <div class="container bg-img" style="height: 100vh;padding-left:160px; padding-right:160px;padding-top:160px;overflow-y: scroll;">
+            <form action="/" method="POST">
+                <div class="row">
+                    <div class="col-2">
+                        <h1 class='fairyDust'><label>Nome:</label></h1>
+                    </div>
+                    <div class="col-6"><label><h4 class='mediaeval'>
+                        <h1 class='fairyDust'><input type='text' name='data.name' style="width: 150%;"/></h1>
+                    </h4></label>
+                    </div>
+                    <div class="col-2">
+                        <h3 class="fairyDust"><select name="tipo" >
+                            <option value="Personagem">Personagem</option>
+                            <option value="NPC">NPC</option>
+                        </select></h3>
+                    </div>
+                    <div class="col-2">
+                        <h1 class='fairyDust'><input type='submit' class='add_pers btn' value="Add Ficha"></h1>
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-striped">
+                        <caption class="fairyDust caption-top" style="text-align: center;">Personagens</caption>
+                        <tr>
+                            <th class="mediaeval">Personagem</th>
+                            <th class="mediaeval">Atributos por Sorteio</th>
+                            <th class="mediaeval">Atributos por Pontos</th>
+                            <th class="mediaeval">Excluir</th>
+                        </tr>
+                        {% for personagem in personagens %}
+                            <tr>
+                                <td class="mediaeval">{{personagem.name}}</td>
+                                <td ><a href="/personagem/{{personagem.id}}"><i class="fas fa-file-invoice"></i></a></td>
+                                <td ><a href="/personagem_cp/{{personagem.id}}"><i class="fas fa-file-powerpoint"></i></a></td>
+                                <td ><a href="/delete/{{personagem.id}}"><i class="fas fa-trash"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-striped" style="margin-top:20px;">
+                        <caption class="fairyDust caption-top" style="text-align: center;">NPC's</caption>
+                        <tr>
+                            <th class="mediaeval">NPC</th>
+                            <th class="mediaeval">Editar Ficha</th>
+                            <th class="mediaeval">Excluir</th>
+                        </tr>
+                        {% for npc in npcs %}
+                            <tr>
+                                <td class="mediaeval">{{npc.name}}</td>
+                                <td ><a href="/npc/{{npc.id}}"><i class="fas fa-file-invoice"></i></a></td>
+                                <td ><a href="/delete_npc/{{npc.id}}"><i class="fas fa-trash"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/all.js') }}"></script>
+
+    {% endblock %}
