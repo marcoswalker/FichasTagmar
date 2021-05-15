@@ -1280,6 +1280,16 @@ def roll_carac():
     ]
     return jsonify(roll)
 
+from personagem import att_atributo
+
+@app.route('/atrib_pers', methods=['POST'])
+def atrib_pers():
+    atributo = request.values['atrib']
+    valor_sort = int(request.values['value'])
+    mod_racial = int(request.values['mod_racial'])
+    efeitos = request.values['efeitos']
+    return jsonify(att_atributo(atributo, mod_racial, valor_sort, efeitos))
+
 if __name__ == "__main__":
     #app.run(debug=True, host="0.0.0.0", port=5000)
     init_gui(app, width=1500, height=900, window_title="Ficha Tagmar", icon="static/assets/favicon.ico")

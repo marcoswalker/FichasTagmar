@@ -1,6 +1,9 @@
 let profissao = {};
 let raca_per = {};
 var items_per = [];
+let url = window.location.href;
+let pers_id = url.split('/');
+pers_id = pers_id[pers_id.length - 1];
 $(document).ready(function (){
     
     let itens_personagem = $('[name="data.items"]').val();
@@ -736,166 +739,124 @@ function atributos_controll() {
 
 function att_INT() {
     let raca = raca_per;
-    let valores = [0,-2,-2,-2,-1,-1,-1,-1,-1,0,0,0,0,1,1,1,2,2,3,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
     let value = parseInt($('[name="data.carac_sort.INT"]').val());
     let mod_racial = raca.data.mod_racial.INT;
-    $('[name="data.carac_final.INT"]').val(value + mod_racial);
-    let soma_INT = valores[value + mod_racial];
-    for (let item of items_per) {
-        if (item.type == "Efeito" && item.data.atributo == "INT" && item.data.ativo) {
-            if (item.data.tipo == "+") soma_INT += item.data.valor;
-            else if (item.data.tipo == "-") soma_INT -= item.data.valor;
-            else if (item.data.tipo == "/") soma_INT = soma_INT / item.data.valor;
-            else if (item.data.tipo == "*") soma_INT = soma_INT * item.data.valor;
-        }
-    }
-    $('[name="data.atributos.INT"]').val(soma_INT);
-    $('[name="data.valor_teste.INT"]').val(4*soma_INT);
-    att_pontos_hab();
-    att_combate();
-    att_tecnicas_table();
+    let efeitos = [];
+    if (items_per.length > 0) efeitos = items_per.filter(e => e.type == "Efeito");
+    $.post('/atrib_pers', {atrib: "INT", value: value, mod_racial: mod_racial, efeitos: JSON.stringify(efeitos)}, function (data) {
+        $('[name="data.carac_final.INT"]').val(data.carac_final);
+        $('[name="data.atributos.INT"]').val(data.somaAtrib);
+        $('[name="data.valor_teste.INT"]').val(4*data.somaAtrib);
+        att_pontos_hab();
+        att_combate();
+        att_tecnicas_table();
+    });
 }
 
 function att_AUR() {
     let raca = raca_per;
-    let valores = [0,-2,-2,-2,-1,-1,-1,-1,-1,0,0,0,0,1,1,1,2,2,3,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
     let value = parseInt($('[name="data.carac_sort.AUR"]').val());
     let mod_racial = raca.data.mod_racial.AUR;
-    $('[name="data.carac_final.AUR"]').val(value + mod_racial);
-    let soma_AUR = valores[value + mod_racial];
-    for (let item of items_per) {
-        if (item.type == "Efeito" && item.data.atributo == "AUR" && item.data.ativo) {
-            if (item.data.tipo == "+") soma_AUR += item.data.valor;
-            else if (item.data.tipo == "-") soma_AUR -= item.data.valor;
-            else if (item.data.tipo == "/") soma_AUR = soma_AUR / item.data.valor;
-            else if (item.data.tipo == "*") soma_AUR = soma_AUR * item.data.valor;
-        }
-    }
-    $('[name="data.atributos.AUR"]').val(soma_AUR);
-    $('[name="data.valor_teste.AUR"]').val(4*soma_AUR);
-    att_rm();
-    att_karma();
-    att_pontos_hab();
-    att_combate();
-    att_tecnicas_table();
-    att_magias_table();
+    let efeitos = [];
+    if (items_per.length > 0) efeitos = items_per.filter(e => e.type == "Efeito");
+    $.post('/atrib_pers', {atrib: "AUR", value: value, mod_racial: mod_racial, efeitos: JSON.stringify(efeitos)}, function (data) {
+        $('[name="data.carac_final.AUR"]').val(data.carac_final);
+        $('[name="data.atributos.AUR"]').val(data.somaAtrib);
+        $('[name="data.valor_teste.AUR"]').val(4*data.somaAtrib);
+        att_rm();
+        att_karma();
+        att_pontos_hab();
+        att_combate();
+        att_tecnicas_table();
+        att_magias_table();
+    });
 }
 
 function att_CAR() {
     let raca = raca_per;
-    let valores = [0,-2,-2,-2,-1,-1,-1,-1,-1,0,0,0,0,1,1,1,2,2,3,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
     let value = parseInt($('[name="data.carac_sort.CAR"]').val());
     let mod_racial = raca.data.mod_racial.CAR;
-    $('[name="data.carac_final.CAR"]').val(value + mod_racial);
-    let soma_CAR = valores[value + mod_racial];
-    for (let item of items_per) {
-        if (item.type == "Efeito" && item.data.atributo == "CAR" && item.data.ativo) {
-            if (item.data.tipo == "+") soma_CAR += item.data.valor;
-            else if (item.data.tipo == "-") soma_CAR -= item.data.valor;
-            else if (item.data.tipo == "/") soma_CAR = soma_CAR / item.data.valor;
-            else if (item.data.tipo == "*") soma_CAR = soma_CAR * item.data.valor;
-        }
-    }
-    $('[name="data.atributos.CAR"]').val(soma_CAR);
-    $('[name="data.valor_teste.CAR"]').val(4*soma_CAR);
-    att_pontos_hab();
-    att_combate();
-    att_tecnicas_table();
+    let efeitos = [];
+    if (items_per.length > 0) efeitos = items_per.filter(e => e.type == "Efeito");
+    $.post('/atrib_pers', {atrib: "CAR", value: value, mod_racial: mod_racial, efeitos: JSON.stringify(efeitos)}, function (data) {
+        $('[name="data.carac_final.CAR"]').val(data.carac_final);
+        $('[name="data.atributos.CAR"]').val(data.somaAtrib);
+        $('[name="data.valor_teste.CAR"]').val(4*data.somaAtrib);
+        att_pontos_hab();
+        att_combate();
+        att_tecnicas_table();
+    });
 }
 
 function att_FOR() {
     let raca = raca_per;
-    let valores = [0,-2,-2,-2,-1,-1,-1,-1,-1,0,0,0,0,1,1,1,2,2,3,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
     let value = parseInt($('[name="data.carac_sort.FOR"]').val());
     let mod_racial = raca.data.mod_racial.FOR;
-    $('[name="data.carac_final.FOR"]').val(value + mod_racial);
-    let soma_FOR = valores[value + mod_racial];
-    for (let item of items_per) {
-        if (item.type == "Efeito" && item.data.atributo == "FOR" && item.data.ativo) {
-            if (item.data.tipo == "+") soma_FOR += item.data.valor;
-            else if (item.data.tipo == "-") soma_FOR -= item.data.valor;
-            else if (item.data.tipo == "/") soma_FOR = soma_FOR / item.data.valor;
-            else if (item.data.tipo == "*") soma_FOR = soma_FOR * item.data.valor;
-        }
-    }
-    $('[name="data.atributos.FOR"]').val(soma_FOR);
-    $('[name="data.valor_teste.FOR"]').val(4*soma_FOR);
-    if (parseInt($('[name="data.atributos.FIS"').val()) != null) att_ef();
-    att_pontos_hab();
-    att_combate();
-    att_tecnicas_table();
-    att_pertences_table();
+    let efeitos = [];
+    if (items_per.length > 0) efeitos = items_per.filter(e => e.type == "Efeito");
+    $.post('/atrib_pers', {atrib: "FOR", value: value, mod_racial: mod_racial, efeitos: JSON.stringify(efeitos)}, function (data) {
+        $('[name="data.carac_final.FOR"]').val(data.carac_final);
+        $('[name="data.atributos.FOR"]').val(data.somaAtrib);
+        $('[name="data.valor_teste.FOR"]').val(4*data.somaAtrib);
+        if (parseInt($('[name="data.atributos.FIS"').val()) != null) att_ef();
+        att_pontos_hab();
+        att_combate();
+        att_tecnicas_table();
+        att_pertences_table();
+    });
 }
 
 function att_FIS() {
     let raca = raca_per;
-    let valores = [0,-2,-2,-2,-1,-1,-1,-1,-1,0,0,0,0,1,1,1,2,2,3,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
     let value = parseInt($('[name="data.carac_sort.FIS"]').val());
     let mod_racial = raca.data.mod_racial.FIS;
-    $('[name="data.carac_final.FIS"]').val(value + mod_racial);
-    let soma_FIS = valores[value + mod_racial];
-    for (let item of items_per) {
-        if (item.type == "Efeito" && item.data.atributo == "FIS" && item.data.ativo) {
-            if (item.data.tipo == "+") soma_FIS += item.data.valor;
-            else if (item.data.tipo == "-") soma_FIS -= item.data.valor;
-            else if (item.data.tipo == "/") soma_FIS = soma_FIS / item.data.valor;
-            else if (item.data.tipo == "*") soma_FIS = soma_FIS * item.data.valor;
-        }
-    }
-    $('[name="data.atributos.FIS"]').val(soma_FIS);
-    $('[name="data.valor_teste.FIS"]').val(4*soma_FIS);
-    att_vb();
-    att_rf();
-    att_ef();
-    att_eh();
-    att_pontos_hab();
-    att_combate();
-    att_tecnicas_table();
+    let efeitos = [];
+    if (items_per.length > 0) efeitos = items_per.filter(e => e.type == "Efeito");
+    $.post('/atrib_pers', {atrib: "FIS", value: value, mod_racial: mod_racial, efeitos: JSON.stringify(efeitos)}, function (data) {
+        $('[name="data.carac_final.FIS"]').val(data.carac_final);
+        $('[name="data.atributos.FIS"]').val(data.somaAtrib);
+        $('[name="data.valor_teste.FIS"]').val(4*data.somaAtrib);
+        att_vb();
+        att_rf();
+        att_ef();
+        att_eh();
+        att_pontos_hab();
+        att_combate();
+        att_tecnicas_table();
+    });
 }
 
 function att_AGI () {
     let raca = raca_per;
-    let valores = [0,-2,-2,-2,-1,-1,-1,-1,-1,0,0,0,0,1,1,1,2,2,3,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
     let value = parseInt($('[name="data.carac_sort.AGI"]').val());
     let mod_racial = raca.data.mod_racial.AGI;
-    $('[name="data.carac_final.AGI"]').val(value + mod_racial);
-    let soma_AGI = valores[value + mod_racial];
-    for (let item of items_per) {
-        if (item.type == "Efeito" && item.data.atributo == "AGI" && item.data.ativo) {
-            if (item.data.tipo == "+") soma_AGI += item.data.valor;
-            else if (item.data.tipo == "-") soma_AGI -= item.data.valor;
-            else if (item.data.tipo == "/") soma_AGI = soma_AGI / item.data.valor;
-            else if (item.data.tipo == "*") soma_AGI = soma_AGI * item.data.valor;
-        }
-    }
-    $('[name="data.atributos.AGI"]').val(soma_AGI);
-    $('[name="data.valor_teste.AGI"]').val(4*soma_AGI);
-    att_pontos_hab();
-    att_combate();
-    att_tecnicas_table();
-    att_defesa_table();
+    let efeitos = [];
+    if (items_per.length > 0) efeitos = items_per.filter(e => e.type == "Efeito");
+    $.post('/atrib_pers', {atrib: "AGI", value: value, mod_racial: mod_racial, efeitos: JSON.stringify(efeitos)}, function (data) {
+        $('[name="data.carac_final.AGI"]').val(data.carac_final);
+        $('[name="data.atributos.AGI"]').val(data.somaAtrib);
+        $('[name="data.valor_teste.AGI"]').val(4*data.somaAtrib);
+        att_pontos_hab();
+        att_combate();
+        att_tecnicas_table();
+        att_defesa_table();
+    });
 }
 
 function att_PER() {
     let raca = raca_per;
-    let valores = [0,-2,-2,-2,-1,-1,-1,-1,-1,0,0,0,0,1,1,1,2,2,3,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
     let value = parseInt($('[name="data.carac_sort.PER"]').val());
     let mod_racial = raca.data.mod_racial.PER;
-    $('[name="data.carac_final.PER"]').val(value + mod_racial);
-    let soma_PER = valores[value + mod_racial];
-    for (let item of items_per) {
-        if (item.type == "Efeito" && item.data.atributo == "PER" && item.data.ativo) {
-            if (item.data.tipo == "+") soma_PER += item.data.valor;
-            else if (item.data.tipo == "-") soma_PER -= item.data.valor;
-            else if (item.data.tipo == "/") soma_PER = soma_PER / item.data.valor;
-            else if (item.data.tipo == "*") soma_PER = soma_PER * item.data.valor;
-        }
-    }
-    $('[name="data.atributos.PER"]').val(soma_PER);
-    $('[name="data.valor_teste.PER"]').val(4*soma_PER);
-    att_pontos_hab();
-    att_combate();
-    att_tecnicas_table();
+    let efeitos = [];
+    if (items_per.length > 0) efeitos = items_per.filter(e => e.type == "Efeito");
+    $.post('/atrib_pers', {atrib: "PER", value: value, mod_racial: mod_racial, efeitos: JSON.stringify(efeitos)}, function (data) {
+        $('[name="data.carac_final.PER"]').val(data.carac_final);
+        $('[name="data.atributos.PER"]').val(data.somaAtrib);
+        $('[name="data.valor_teste.PER"]').val(4*data.somaAtrib);
+        att_pontos_hab();
+        att_combate();
+        att_tecnicas_table();
+    });
 }
 
 function att_profissao () { // Atualiza PROFISSAO
@@ -1068,23 +1029,23 @@ function att_magias_table() {
     let estagio = parseInt($('[name="data.estagio"]').val());
     let pontos_magia = 0;
     if (atrib_magia != "") pontos_magia = ((2 * atrib_valor) + 7) * estagio;
-    for (let item of items_per) {
-        if (item.type == "Efeito" && item.data.atributo == "PMAG" && item.data.ativo) {
-            if (item.data.tipo == "+") pontos_magia += item.data.valor;
-            else if (item.data.tipo == "-") pontos_magia -= item.data.valor;
-            else if (item.data.tipo == "/") pontos_magia = pontos_magia / item.data.valor;
-            else if (item.data.tipo == "*") pontos_magia = pontos_magia * item.data.valor;
-        }
+    let efeitos = [];
+    if (items_per.length > 0) efeitos = items_per.filter(e => e.type === "Efeito" && e.data.atributo === "PMAG" && e.data.ativo);
+    for (let item of efeitos) {
+        if (item.data.tipo == "+") pontos_magia += item.data.valor;
+        else if (item.data.tipo == "-") pontos_magia -= item.data.valor;
+        else if (item.data.tipo == "/") pontos_magia = pontos_magia / item.data.valor;
+        else if (item.data.tipo == "*") pontos_magia = pontos_magia * item.data.valor;
     }
-    for (let item of items_per) {
-        if (item.type == "Magia") {
-            let total = 0;
-            if (item.data.total.valorKarma) total = aura + item.data.nivel + item.data.total.valorKarma;
-            else total = aura + item.data.nivel;
-            items_per[items_per.indexOf(item)].data.total.valor = total;
-            pontos_magia -= item.data.custo * item.data.nivel;
-            $('.table_magias_pers').append('<tr><td class="mediaeval"><a class="roll_magia" data-item="'+item._id+'">'+item.name+'</a></td><td class="mediaeval"><input type="number" class="nivel_magia" value="'+item.data.nivel+'" data-magia="'+item._id+'" style="width:40px;text-align:center;"/></td><td class="mediaeval">'+item.data.total.valor+'</td><td><a class="remove_magia" data-magia="'+item._id+'"><i class="fas fa-trash"></i></a></td></tr>');
-        }
+    let magias = [];
+    if (items_per.length > 0) magias = items_per.filter(m => m.type === "Magia");
+    for (let item of magias) {
+        let total = 0;
+        if (item.data.total.valorKarma) total = aura + item.data.nivel + item.data.total.valorKarma;
+        else total = aura + item.data.nivel;
+        items_per[items_per.indexOf(item)].data.total.valor = total;
+        pontos_magia -= item.data.custo * item.data.nivel;
+        $('.table_magias_pers').append('<tr><td class="mediaeval"><a class="roll_magia" data-item="'+item._id+'">'+item.name+'</a></td><td class="mediaeval"><input type="number" class="nivel_magia" value="'+item.data.nivel+'" data-magia="'+item._id+'" style="width:40px;text-align:center;"/></td><td class="mediaeval">'+item.data.total.valor+'</td><td><a class="remove_magia" data-magia="'+item._id+'"><i class="fas fa-trash"></i></a></td></tr>');
     }
     $('.actor_items').val(JSON.stringify(items_per));
     $('[name="data.pontos_mag"]').val(pontos_magia);
@@ -1107,27 +1068,27 @@ function att_tecnicas_table() {
     if (estagio) estagio = parseInt(estagio);
     else estagio = 1;
     let pontos_tec = profissao.data.p_aquisicao.p_tec * estagio;
-    for (let item of items_per) {
-        if (item.type == "Efeito" && item.data.atributo == "PTEC" && item.data.ativo) {
-            if (item.data.tipo == "+") pontos_tec += item.data.valor;
-            else if (item.data.tipo == "-") pontos_tec -= item.data.valor;
-            else if (item.data.tipo == "/") pontos_tec = pontos_tec / item.data.valor;
-            else if (item.data.tipo == "*") pontos_tec = pontos_tec * item.data.valor;
-        }
+    let efeitos = [];
+    if (items_per.length > 0) efeitos = items_per.filter(e => e.type === "Efeito" && e.data.atributo == "PTEC" && e.data.ativo);
+    for (let item of efeitos) {
+        if (item.data.tipo == "+") pontos_tec += item.data.valor;
+        else if (item.data.tipo == "-") pontos_tec -= item.data.valor;
+        else if (item.data.tipo == "/") pontos_tec = pontos_tec / item.data.valor;
+        else if (item.data.tipo == "*") pontos_tec = pontos_tec * item.data.valor;
     }
-    for (let item of items_per) {
-        if (item.type == "TecnicasCombate") {
-            let ajuste_tecnica = item.data.ajuste.atributo;
-            let nivel = item.data.nivel;
-            let total = 0;
-            let valor_ajuste = $('[name="data.atributos.'+ajuste_tecnica+'"]').val();
-            if (valor_ajuste) valor_ajuste = parseInt(valor_ajuste);
-            else valor_ajuste = 0;
-            total = valor_ajuste + nivel;
-            items_per[items_per.indexOf(item)].data.total = total;
-            pontos_tec -= nivel * item.data.custo;
-            $('.table_tecnica').append('<tr><td class="mediaeval"><a class="roll_tec" data-item="'+item._id+'">'+item.name+'</a></td><td class="mediaeval"><input type="number" class="nivel_tecnica" value="'+item.data.nivel+'" data-tecnica="'+item._id+'" style="width:40px;text-align:center;"/></td><td class="mediaeval" style="text-align: center;">'+item.data.total+'</td><td class="mediaeval">'+item.data.categoria+'</td><td><a class="remove_tecnica" data-tecnica="'+item._id+'"><i class="fas fa-trash"></i></a></td> </tr>');
-        }
+    let tecnicas = [];
+    if (items_per.length > 0) tecnicas = items_per.filter(t => t.type === "TecnicasCombate");
+    for (let item of tecnicas) {
+        let ajuste_tecnica = item.data.ajuste.atributo;
+        let nivel = item.data.nivel;
+        let total = 0;
+        let valor_ajuste = $('[name="data.atributos.'+ajuste_tecnica+'"]').val();
+        if (valor_ajuste) valor_ajuste = parseInt(valor_ajuste);
+        else valor_ajuste = 0;
+        total = valor_ajuste + nivel;
+        items_per[items_per.indexOf(item)].data.total = total;
+        pontos_tec -= nivel * item.data.custo;
+        $('.table_tecnica').append('<tr><td class="mediaeval"><a class="roll_tec" data-item="'+item._id+'">'+item.name+'</a></td><td class="mediaeval"><input type="number" class="nivel_tecnica" value="'+item.data.nivel+'" data-tecnica="'+item._id+'" style="width:40px;text-align:center;"/></td><td class="mediaeval" style="text-align: center;">'+item.data.total+'</td><td class="mediaeval">'+item.data.categoria+'</td><td><a class="remove_tecnica" data-tecnica="'+item._id+'"><i class="fas fa-trash"></i></a></td> </tr>');
     }
     $('.actor_items').val(JSON.stringify(items_per));
     $('[name="data.pontos_tec"]').val(pontos_tec);
@@ -1219,22 +1180,24 @@ function att_defesa_table() {
     let agilidade = $('[name="data.atributos.AGI"]').val();
     if (agilidade) agilidade = parseInt(agilidade);
     else agilidade = 0;
-    for (let item of items_per) {
-        if (item.type == "Defesa") {
-            let def_tipo = item.data.defesa_base.tipo;
-            if (def_tipo == "L" || def_tipo == "M" || def_tipo == "P") categoria = item.data.defesa_base.tipo;
-            if (item.data.defesa_base.valor) valor_def += item.data.defesa_base.valor;
-            if (item.data.absorcao) absorcao += item.data.absorcao;
-            $('.table_defesa').append('<tr><td class="mediaeval">'+item.name+'</td><td class="mediaeval">'+ item.data.defesa_base.tipo  + item.data.defesa_base.valor.toString() +'</td><td class="mediaeval">'+ item.data.absorcao.toString()+'</td><td><a class="remove_defesa" data-defesa="'+item._id+'"><i class="fas fa-trash"></i></a></td> </tr>');
-        }
+    let defesas = [];
+    if (items_per.length > 0) defesas = items_per.filter(d => d.type == "Defesa");
+    for (let item of defesas) {
+        let def_tipo = item.data.defesa_base.tipo;
+        if (def_tipo == "L" || def_tipo == "M" || def_tipo == "P") categoria = item.data.defesa_base.tipo;
+        if (item.data.defesa_base.valor) valor_def += item.data.defesa_base.valor;
+        if (item.data.absorcao) absorcao += item.data.absorcao;
+        $('.table_defesa').append('<tr><td class="mediaeval">'+item.name+'</td><td class="mediaeval">'+ item.data.defesa_base.tipo  + item.data.defesa_base.valor.toString() +'</td><td class="mediaeval">'+ item.data.absorcao.toString()+'</td><td><a class="remove_defesa" data-defesa="'+item._id+'"><i class="fas fa-trash"></i></a></td> </tr>');
     }
-    for (let item of items_per) {
-        if (item.type == "Efeito" && item.data.atributo == "DEF" && item.data.ativo) {
+    let efeitos = [];
+    if (items_per.length > 0) efeitos = items_per.filter(e => e.type === "Efeito" && (e.data.atributo == "DEF" || e.data.atributo == "ABS") && e.data.ativo);
+    for (let item of efeitos) {
+        if (item.data.atributo == "DEF") {
             if (item.data.tipo == "+") valor_def += item.data.valor;
             else if (item.data.tipo == "-") valor_def -= item.data.valor;
             else if (item.data.tipo == "/") valor_def = valor_def / item.data.valor;
             else if (item.data.tipo == "*") valor_def = valor_def * item.data.valor;
-        } else if (item.type == "Efeito" && item.data.atributo == "ABS" && item.data.ativo) {
+        } else if (item.data.atributo == "ABS") {
             if (item.data.tipo == "+") absorcao += item.data.valor;
             else if (item.data.tipo == "-") absorcao -= item.data.valor;
             else if (item.data.tipo == "/") absorcao = absorcao / item.data.valor;
@@ -1260,13 +1223,13 @@ function defesa_controll() {
 
 function att_efeitos_table() {
     $('.efeitos_table td').parent().remove();
-    for (let item of items_per) {
-        if (item.type == "Efeito") {
-            if (item.data.ativo) $('.efeitos_table').append(`<tr><td class="mediaeval">${item.name}</td> <td class="mediaeval"><select class="efeito_atributo" data-item="${item._id}" value="${item.data.atributo}"><option value="INT">INT</option><option value="CAR">CAR</option><option value="AUR">AUR</option><option value="FOR">FOR</option><option value="FIS">FIS</option><option value="AGI">AGI</option><option value="PER">PER</option><option value="EF">EF</option> <option value="ABS">Absorção</option><option value="DEF">Defesa</option> <option value="KMA">Karma</option> <option value="VB">VB</option><option value="RFIS">R.Física</option> <option value="RMAG">R.Magia</option> <option value="PHAB">Pontos Hab.</option> <option value="PTEC">Pontos Tec.</option> <option value="PARM">Pontos Arm.</option> <option value="PMAG">Pontos Mag.</option> </select></td> <td class="mediaeval"> <select class="efeito_tipo" data-item="${item._id}" value="${item.data.tipo}"><option value="+">+</option> <option value="-">-</option> <option value="/">/</option> <option value="*">*</option> </select> </td><td class="mediaeval"><input type="number" class="efeito_valor" value="${item.data.valor}" data-item="${item._id}" style="width:40px;text-align:center;"/></td><td> <a class="ativaEfeito" data-item="${item._id}" title="Desativar"><i class="fas fa-check-circle"></i></a></td></td><td><a class="remove_efeito" data-efeito="${item._id}"><i class="fas fa-trash"></i></a> </td> </tr>`);
-            else $('.efeitos_table').append(`<tr><td class="mediaeval">${item.name}</td> <td class="mediaeval"><select class="efeito_atributo" data-item="${item._id}" value="${item.data.atributo}"><option value="INT">INT</option><option value="CAR">CAR</option><option value="AUR">AUR</option><option value="FOR">FOR</option><option value="FIS">FIS</option><option value="AGI">AGI</option><option value="PER">PER</option><option value="EF">EF</option> <option value="ABS">Absorção</option><option value="DEF">Defesa</option> <option value="KMA">Karma</option> <option value="VB">VB</option><option value="RFIS">R.Física</option> <option value="RMAG">R.Magia</option> <option value="PHAB">Pontos Hab.</option> <option value="PTEC">Pontos Tec.</option> <option value="PARM">Pontos Arm.</option> <option value="PMAG">Pontos Mag.</option> </select></td> <td class="mediaeval"> <select class="efeito_tipo" data-item="${item._id}" value="${item.data.tipo}"><option value="+">+</option> <option value="-">-</option> <option value="/">/</option> <option value="*">*</option> </select> </td><td class="mediaeval"><input type="number" class="efeito_valor" value="${item.data.valor}" data-item="${item._id}" style="width:40px;text-align:center;"/></td><td><a class="ativaEfeito" data-item="${item._id}" title="Ativar"><i class="far fa-times-circle"></i></a></td></td><td><a class="remove_efeito" data-efeito="${item._id}"><i class="fas fa-trash"></i></a> </td> </tr>`);
-            $('.efeito_atributo').last().val(item.data.atributo);
-            $('.efeito_tipo').last().val(item.data.tipo);
-        }
+    let efeitos = [];
+    if (items_per.length > 0) efeitos = items_per.filter(e => e.type == "Efeito");
+    for (let item of efeitos) {
+        if (item.data.ativo) $('.efeitos_table').append(`<tr><td class="mediaeval">${item.name}</td> <td class="mediaeval"><select class="efeito_atributo" data-item="${item._id}" value="${item.data.atributo}"><option value="INT">INT</option><option value="CAR">CAR</option><option value="AUR">AUR</option><option value="FOR">FOR</option><option value="FIS">FIS</option><option value="AGI">AGI</option><option value="PER">PER</option><option value="EF">EF</option> <option value="ABS">Absorção</option><option value="DEF">Defesa</option> <option value="KMA">Karma</option> <option value="VB">VB</option><option value="RFIS">R.Física</option> <option value="RMAG">R.Magia</option> <option value="PHAB">Pontos Hab.</option> <option value="PTEC">Pontos Tec.</option> <option value="PARM">Pontos Arm.</option> <option value="PMAG">Pontos Mag.</option> </select></td> <td class="mediaeval"> <select class="efeito_tipo" data-item="${item._id}" value="${item.data.tipo}"><option value="+">+</option> <option value="-">-</option> <option value="/">/</option> <option value="*">*</option> </select> </td><td class="mediaeval"><input type="number" class="efeito_valor" value="${item.data.valor}" data-item="${item._id}" style="width:40px;text-align:center;"/></td><td> <a class="ativaEfeito" data-item="${item._id}" title="Desativar"><i class="fas fa-check-circle"></i></a></td></td><td><a class="remove_efeito" data-efeito="${item._id}"><i class="fas fa-trash"></i></a> </td> </tr>`);
+        else $('.efeitos_table').append(`<tr><td class="mediaeval">${item.name}</td> <td class="mediaeval"><select class="efeito_atributo" data-item="${item._id}" value="${item.data.atributo}"><option value="INT">INT</option><option value="CAR">CAR</option><option value="AUR">AUR</option><option value="FOR">FOR</option><option value="FIS">FIS</option><option value="AGI">AGI</option><option value="PER">PER</option><option value="EF">EF</option> <option value="ABS">Absorção</option><option value="DEF">Defesa</option> <option value="KMA">Karma</option> <option value="VB">VB</option><option value="RFIS">R.Física</option> <option value="RMAG">R.Magia</option> <option value="PHAB">Pontos Hab.</option> <option value="PTEC">Pontos Tec.</option> <option value="PARM">Pontos Arm.</option> <option value="PMAG">Pontos Mag.</option> </select></td> <td class="mediaeval"> <select class="efeito_tipo" data-item="${item._id}" value="${item.data.tipo}"><option value="+">+</option> <option value="-">-</option> <option value="/">/</option> <option value="*">*</option> </select> </td><td class="mediaeval"><input type="number" class="efeito_valor" value="${item.data.valor}" data-item="${item._id}" style="width:40px;text-align:center;"/></td><td><a class="ativaEfeito" data-item="${item._id}" title="Ativar"><i class="far fa-times-circle"></i></a></td></td><td><a class="remove_efeito" data-efeito="${item._id}"><i class="fas fa-trash"></i></a> </td> </tr>`);
+        $('.efeito_atributo').last().val(item.data.atributo);
+        $('.efeito_tipo').last().val(item.data.tipo);
     }
     efeitos_controll();
 }
@@ -1656,31 +1619,31 @@ function att_pontos_hab() {
     if (Object.keys(profissao).length == 0) return;
     let estagio = parseInt($('[name="data.estagio"]').val());
     let pontos = profissao.data.p_aquisicao.p_hab * estagio;
-    for (let item of items_per) {
-        if (item.type == "Efeito" && item.data.atributo == "PHAB" && item.data.ativo) {
-            if (item.data.tipo == "+") pontos += item.data.valor;
-            else if (item.data.tipo == "-") pontos -= item.data.valor;
-            else if (item.data.tipo == "/") pontos = pontos / item.data.valor;
-            else if (item.data.tipo == "*") pontos = pontos * item.data.valor;
-        }
+    let efeitos = [];
+    if (items_per.length > 0) efeitos = items_per.filter(e => e.type == "Efeito" && e.data.atributo == "PHAB" && e.data.ativo);
+    for (let item of efeitos) {
+        if (item.data.tipo == "+") pontos += item.data.valor;
+        else if (item.data.tipo == "-") pontos -= item.data.valor;
+        else if (item.data.tipo == "/") pontos = pontos / item.data.valor;
+        else if (item.data.tipo == "*") pontos = pontos * item.data.valor;
     }
     let max_hab = 0;
     if (estagio > 1) max_hab = profissao.data.p_aquisicao.p_hab * Math.floor(estagio/2);
     else max_hab = profissao.data.p_aquisicao.p_hab;
     const grupo_pen = profissao.data.grupo_pen;
     const hab_nata = $('[name="data.hab_nata"]').val();
-    for (let item of items_per) {
-        if (item.type == "Habilidade") {
-            if (item.data.tipo == grupo_pen) {
-                pontos -= (item.data.custo + 1) * item.data.nivel;
-                att_hab_total(item._id, item.data.nivel);
-            } else if (item.name == hab_nata) {
-                att_hab_total(item._id, estagio);
-                att_hab_tables();
-            } else {
-                pontos -= item.data.custo * item.data.nivel;
-                att_hab_total(item._id, item.data.nivel);
-            }
+    let habilidades = [];
+    if (items_per.length > 0) habilidades = items_per.filter(h => h.type == "Habilidade");
+    for (let item of habilidades) {
+        if (item.data.tipo == grupo_pen) {
+            pontos -= (item.data.custo + 1) * item.data.nivel;
+            att_hab_total(item._id, item.data.nivel);
+        } else if (item.name == hab_nata) {
+            att_hab_total(item._id, estagio);
+            att_hab_tables();
+        } else {
+            pontos -= item.data.custo * item.data.nivel;
+            att_hab_total(item._id, item.data.nivel);
         }
     }
     $('[name="data.max_hab"]').val(max_hab);
@@ -1708,13 +1671,13 @@ function att_pontos_gra () {
     let pontos_gastos = p_cd + p_ci + p_cl + p_cld + p_el + p_cme + p_cmm  + p_em + p_pma + p_pml + p_cpe + p_cpm + p_ep + p_pp + p_ppa + p_ppb;
     let estagio = parseInt($('[name="data.estagio"]').val());
     let pontos = profissao.data.p_aquisicao.p_gra * estagio;
-    for (let item of items_per) {
-        if (item.type == "Efeito" && item.data.atributo == "PARM" && item.data.ativo) {
-            if (item.data.tipo == "+") pontos += item.data.valor;
-            else if (item.data.tipo == "-") pontos -= item.data.valor;
-            else if (item.data.tipo == "/") pontos = pontos / item.data.valor;
-            else if (item.data.tipo == "*") pontos = pontos * item.data.valor;
-        }
+    let efeitos = [];
+    if (items_per.length > 0) efeitos = items_per.filter(e => e.type == "Efeito" && e.data.atributo == "PARM" && e.data.ativo);
+    for (let item of efeitos) {
+        if (item.data.tipo == "+") pontos += item.data.valor;
+        else if (item.data.tipo == "-") pontos -= item.data.valor;
+        else if (item.data.tipo == "/") pontos = pontos / item.data.valor;
+        else if (item.data.tipo == "*") pontos = pontos * item.data.valor;
     }
     $('.pontos_armas').val(pontos - pontos_gastos);
 }
@@ -1732,13 +1695,13 @@ function att_vb() {
     if (Object.keys(raca_per).length > 0) {
         let vb_raca = raca_per.data.vb;
         let vb_total = vb_raca + fis;
-        for (let item of items_per) {
-            if (item.type == "Efeito" && item.data.atributo == "VB" && item.data.ativo) {
-                if (item.data.tipo == "+") vb_total += item.data.valor;
-                else if (item.data.tipo == "-") vb_total -= item.data.valor;
-                else if (item.data.tipo == "/") vb_total = vb_total / item.data.valor;
-                else if (item.data.tipo == "*") vb_total = vb_total * item.data.valor;
-            }
+        let efeitos = [];
+        if (items_per.length > 0) efeitos = items_per.filter(e => e.type === "Efeito" && e.data.atributo == "VB" && e.data.ativo);
+        for (let item of efeitos) {
+            if (item.data.tipo == "+") vb_total += item.data.valor;
+            else if (item.data.tipo == "-") vb_total -= item.data.valor;
+            else if (item.data.tipo == "/") vb_total = vb_total / item.data.valor;
+            else if (item.data.tipo == "*") vb_total = vb_total * item.data.valor;
         }
         $('[name="data.vb"]').val(vb_total);
     }
@@ -1748,13 +1711,13 @@ function att_rm() {
     let estagio = parseInt($('[name="data.estagio"]').val());
     let aur = parseInt($('[name="data.atributos.AUR"]').val());
     let rm = aur + estagio;
-    for (let item of items_per) {
-        if (item.type == "Efeito" && item.data.atributo == "RMAG" && item.data.ativo) {
-            if (item.data.tipo == "+") rm += item.data.valor;
-            else if (item.data.tipo == "-") rm -= item.data.valor;
-            else if (item.data.tipo == "/") rm = rm / item.data.valor;
-            else if (item.data.tipo == "*") rm = rm * item.data.valor;
-        }
+    let efeitos = [];
+    if (items_per.length > 0) efeitos = items_per.filter(e => e.type === "Efeito" && e.data.atributo == "RMAG" && e.data.ativo);
+    for (let item of efeitos) {
+        if (item.data.tipo == "+") rm += item.data.valor;
+        else if (item.data.tipo == "-") rm -= item.data.valor;
+        else if (item.data.tipo == "/") rm = rm / item.data.valor;
+        else if (item.data.tipo == "*") rm = rm * item.data.valor;
     }
     $('[name="data.rm"]').val(rm);
 }
@@ -1763,13 +1726,13 @@ function att_rf() {
     let estagio = parseInt($('[name="data.estagio"]').val());
     let fis = parseInt($('[name="data.atributos.FIS"]').val());
     let rf = estagio + fis;
-    for (let item of items_per) {
-        if (item.type == "Efeito" && item.data.atributo == "RFIS" && item.data.ativo) {
-            if (item.data.tipo == "+") rf += item.data.valor;
-            else if (item.data.tipo == "-") rf -= item.data.valor;
-            else if (item.data.tipo == "/") rf = rf / item.data.valor;
-            else if (item.data.tipo == "*") rf = rf * item.data.valor;
-        }
+    let efeitos = [];
+    if (items_per.length > 0) efeitos = items_per.filter(e => e.type === "Efeito" && e.data.atributo == "RFIS" && e.data.ativo);
+    for (let item of efeitos) {
+        if (item.data.tipo == "+") rf += item.data.valor;
+        else if (item.data.tipo == "-") rf -= item.data.valor;
+        else if (item.data.tipo == "/") rf = rf / item.data.valor;
+        else if (item.data.tipo == "*") rf = rf * item.data.valor;
     }
     $('[name="data.rf"]').val(rf);
 }
@@ -1780,13 +1743,13 @@ function att_ef() {
     let fis = parseInt($('[name="data.atributos.FIS"]').val());
     let forc = parseInt($('[name="data.atributos.FOR"]').val());
     let ef_max = ef_base + fis + forc;
-    for (let item of items_per) {
-        if (item.type == "Efeito" && item.data.atributo == "EF" && item.data.ativo) {
-            if (item.data.tipo == "+") ef_max += item.data.valor;
-            else if (item.data.tipo == "-") ef_max -= item.data.valor;
-            else if (item.data.tipo == "/") ef_max = ef_max / item.data.valor;
-            else if (item.data.tipo == "*") ef_max = ef_max * item.data.valor;
-        }
+    let efeitos = [];
+    if (items_per.length > 0) efeitos = items_per.filter(e => e.type === "Efeito" && e.data.atributo == "EF" && e.data.ativo);
+    for (let item of efeitos) {
+        if (item.data.tipo == "+") ef_max += item.data.valor;
+        else if (item.data.tipo == "-") ef_max -= item.data.valor;
+        else if (item.data.tipo == "/") ef_max = ef_max / item.data.valor;
+        else if (item.data.tipo == "*") ef_max = ef_max * item.data.valor;
     }
     $('[name="data.ef.max"]').val(ef_max);
 }
@@ -1807,13 +1770,13 @@ function att_karma() {
     let estagio = parseInt($('[name="data.estagio"]').val());
     if ((aur == null) || (estagio == null)) return;
     let karma_max = (aur + 1) * (estagio + 1);
-    for (let item of items_per) {
-        if (item.type == "Efeito" && item.data.atributo == "KMA" && item.data.ativo) {
-            if (item.data.tipo == "+") karma_max += item.data.valor;
-            else if (item.data.tipo == "-") karma_max -= item.data.valor;
-            else if (item.data.tipo == "/") karma_max = karma_max / item.data.valor;
-            else if (item.data.tipo == "*") karma_max = karma_max * item.data.valor;
-        }
+    let efeitos = [];
+    if (items_per.length > 0) efeitos = items_per.filter(e => e.type === "Efeito" && e.data.atributo == "KMA" && e.data.ativo);
+    for (let item of efeitos) {
+        if (item.data.tipo == "+") karma_max += item.data.valor;
+        else if (item.data.tipo == "-") karma_max -= item.data.valor;
+        else if (item.data.tipo == "/") karma_max = karma_max / item.data.valor;
+        else if (item.data.tipo == "*") karma_max = karma_max * item.data.valor;
     }
     $('[name="data.karma.max"').val(karma_max);
 }
@@ -1958,8 +1921,9 @@ function atrib_message(formula, dado, resultado, atributo, coluna, descricao) {
     else if (resultado == "amarelo") $('.chat_content').append("<div class='row chat_msg'><div class='col-12'> <h1 class='mediaeval' style='color: black; text-align:center;background-color:yellow;'>Amarelo - Fácil</h1> </div></div>");
     else if (resultado == "laranja") $('.chat_content').append("<div class='row chat_msg'><div class='col-12'> <h1 class='mediaeval' style='color: white; text-align:center;background-color:orange;'>Laranja - Médio</h1> </div></div>");
     else if (resultado == "vermelho") $('.chat_content').append("<div class='row chat_msg'><div class='col-12'> <h1 class='mediaeval' style='color: white; text-align:center;background-color:red;'>Vermelho - Difícil</h1> </div></div>");
-    else if (resultado == "azul" || resultado == "roxo") $('.chat_content').append("<div class='row chat_msg'><div class='col-12'> <h1 class='mediaeval' style='color: white; text-align:center;background-color:blue;'>Azul - Muito Difícil</h1> </div></div>");
-    else if (resultado == "cinza") $('.chat_content').append("<div class='row chat_msg'><div class='col-12'> <h1 class='mediaeval' style='color: black; text-align:center;background-color:gray;'>Cinza - Crítico Absurdo</h1> </div></div>");
+    else if (resultado == "azul") $('.chat_content').append("<div class='row chat_msg'><div class='col-12'> <h1 class='mediaeval' style='color: white; text-align:center;background-color:blue;'>Azul - Muito Difícil</h1> </div></div>");
+    else if (resultado == "roxo") $('.chat_content').append("<div class='row chat_msg'><div class='col-12'><h1 class='mediaeval rola' style='color: white; text-align:center;background-color:rgb(2,9,37);'>Azul Escuro - Absurdo</h1></div></div>");
+    else if (resultado == "cinza") $('.chat_content').append("<div class='row chat_msg'><div class='col-12'> <h1 class='mediaeval' style='color: black; text-align:center;background-color:gray;'>Cinza - Impossível</h1> </div></div>");
     $('.chat_content').append("<div class='row chat_msg'><div class='col-12'><h4 class='mediaeval'>Coluna: "+coluna+"</h4></div></div>");
     $(".chat_content").append("<div class='row chat_msg'><div class='col-12 mensage_uno mediaeval'>" + formula + ":        <span class='fa-layers fa-fw'><i class='fas fa-dice-d20' data-fa-transform='grow-10' style='color: white;'></i><span class='fa-layers-text' data-fa-transform='grow-6 down-2 left-1' style='color: black;'>" + dado + "</span></span> " + "</div></div>");
     $('.chat_content').append("</div>");
