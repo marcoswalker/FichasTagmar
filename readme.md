@@ -1,7 +1,7 @@
 # Fichas Automatizadas Tagmar RPG
 Aplicação simples feita em python que roda um servidor em Flask, possui banco de dados em sqlite para salvar fichas tanto de Personagens quanto de NPCs.
 ## Ultimas Releases com interface gráfica em electron.js
-![Releases](https://github.com/marcoswalker/FichasTagmar/releases) 
+### [Releases](https://github.com/marcoswalker/FichasTagmar/releases) 
 ![](page/preview.png)
 ## Instruções para rodar em python (acessando apenas pelo navegador)
 1. Instalar Python na versão 3, utilizei a versão 3.9.2 no windows 10 e versão 3.8.8 no windows 7.
