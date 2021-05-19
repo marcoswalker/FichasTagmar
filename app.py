@@ -1,22 +1,17 @@
-import sys, os
-if sys.executable.endswith('pythonw.exe'):
-    sys.stdout = open(os.devnull, 'w')
-    sys.stderr = open(os.path.join(os.getenv('TEMP'), 'stderr-{}'.format(os.path.basename(sys.argv[0]))), "w")
-    
 from flask import Flask, render_template, url_for, jsonify, redirect, request, send_file
 from flask_sqlalchemy import SQLAlchemy
 from itens import items_master
 from random import randint
 import json
-from pysideflask import init_gui
-from PySide2.QtWidgets import QFileDialog
-
-
+from io import BytesIO    
+import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///base.db'
+file_path = os.path.join(os.path.abspath(os.getcwd()),"base.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + file_path
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+app.config['UPLOAD_FOLDER'] = "upload"
 db = SQLAlchemy(app)
 
 class NPC(db.Model):
@@ -410,13 +405,11 @@ def tojson_cp(id):
     ficha['data']['hab_nata'] = personagem.hab_nata
     ficha['items'] = json.loads(personagem.items)
     try:
-        filename = "fvtt-Actor-"+personagem.name
-        filenam, _ = QFileDialog.getSaveFileName(None,"JSON para importar no Foundry Vtt",filename,"JSON (*.json)")
-        arquivo = open(filenam, 'w', encoding='utf8')
-        #arquivo = filedialog.asksaveasfile(mode="w",defaultextension='.json',filetypes=[('JSON',".json")],initialfile=filename)
-        arquivo.write(json.dumps(ficha))
-        arquivo.close()
-        return redirect('/personagem_cp/%d' % id)
+        filename = "fvtt-Actor-"+personagem.name+".json"
+        buffer = BytesIO()
+        buffer.write(json.dumps(ficha).encode('utf-8'))
+        buffer.seek(0)
+        return send_file(buffer, mimetype="text/json", as_attachment=True, attachment_filename=filename, cache_timeout=0)
     except:
         return "Deu pobrema ai!"
 
@@ -501,13 +494,11 @@ def tojson_npc(id):
     ficha['data']['moral'] = personagem.moral
     ficha['items'] = json.loads(personagem.items)
     try:
-        filename = "fvtt-Actor-"+personagem.name
-        filenam, _ = QFileDialog.getSaveFileName(None,"JSON para importar no Foundry Vtt",filename,"JSON (*.json)")
-        arquivo = open(filenam, 'w', encoding='utf8')
-        #arquivo = filedialog.asksaveasfile(mode="w",defaultextension='.json',filetypes=[('JSON',".json")],initialfile=filename)
-        arquivo.write(json.dumps(ficha))
-        arquivo.close()
-        return redirect('/npc/%d' % id)
+        filename = "fvtt-Actor-"+personagem.name+".json"
+        buffer = BytesIO()
+        buffer.write(json.dumps(ficha).encode('utf-8'))
+        buffer.seek(0)
+        return send_file(buffer, mimetype="text/json", as_attachment=True, attachment_filename=filename, cache_timeout=0)
     except:
         return "Deu pobrema ai!"
 
@@ -635,23 +626,18 @@ def tojson_sp(id):
     ficha['data']['hab_nata'] = personagem.hab_nata
     ficha['items'] = json.loads(personagem.items)
     try:
-        filename = "fvtt-Actor-"+personagem.name
-        filenam, _ = QFileDialog.getSaveFileName(None,"JSON para importar no Foundry Vtt",filename,"JSON (*.json)")
-        arquivo = open(filenam, 'w', encoding='utf8')
-        #arquivo = filedialog.asksaveasfile(mode="w",defaultextension='.json',filetypes=[('JSON',".json")],initialfile=filename)
-        arquivo.write(json.dumps(ficha))
-        arquivo.close()
-        return redirect('/personagem/%d' % id)
+        filename = "fvtt-Actor-"+personagem.name+".json"
+        buffer = BytesIO()
+        buffer.write(json.dumps(ficha).encode('utf-8'))
+        buffer.seek(0)
+        return send_file(buffer, mimetype="text/json", as_attachment=True, attachment_filename=filename, cache_timeout=0)
     except:
         return "Deu pobrema ai!"
 
-@app.route('/uploadFoundry/<int:id>', methods=['GET'])
+@app.route('/uploadFoundry/<int:id>', methods=['POST'])
 def uploadFoundry(id):
     personagem = Personagem.query.get_or_404(id)
-    filename, _ = QFileDialog.getOpenFileName(None, "JSON do Foundry Vtt", "", "JSON (*.json)")
-    arquivo = open(filename,'r',encoding="utf8")
-    ficha = json.loads(arquivo.read())
-    arquivo.close()
+    ficha = json.loads(request.values['data'])
     try:
         personagem.name = ficha['name']
         personagem.descricao = ficha['data']['descricao']
@@ -752,20 +738,16 @@ def uploadFoundry(id):
         personagem.mod_racial_AGI = ficha['data']['mod_racial']['AGI'] 
         personagem.mod_racial_PER = ficha['data']['mod_racial']['PER'] 
         personagem.hab_nata = ficha['data']['hab_nata']
-        print(type(ficha['items']))
         personagem.items = json.dumps(ficha['items'])
         db.session.commit()
         return redirect('/personagem/%d' % id)
     except:
         return "Algo deu Errado!"
 
-@app.route('/uploadFoundryNPC/<int:id>', methods=['GET'])
+@app.route('/uploadFoundryNPC/<int:id>', methods=['POST'])
 def uploadFoundryNPC(id):
     personagem = NPC.query.get_or_404(id)
-    filename, _ = QFileDialog.getOpenFileName(None, "JSON do Foundry Vtt", "", "JSON (*.json)")
-    arquivo = open(filename,'r',encoding="utf8")
-    ficha = json.loads(arquivo.read())
-    arquivo.close()
+    ficha = json.loads(request.values['data'])
     try:
         personagem.name = ficha['name']
         personagem.descricao = ficha['data']['descricao']
@@ -834,13 +816,10 @@ def uploadFoundryNPC(id):
     except:
         return "Algo deu Errado!"
 
-@app.route('/uploadFoundry_cp/<int:id>', methods=['GET'])
+@app.route('/uploadFoundry_cp/<int:id>', methods=['POST'])
 def uploadFoundry_cp(id):
     personagem = Personagem.query.get_or_404(id)
-    filename, _ = QFileDialog.getOpenFileName(None, "JSON do Foundry Vtt", "", "JSON (*.json)")
-    arquivo = open(filename,'r',encoding="utf8")
-    ficha = json.loads(arquivo.read())
-    arquivo.close()
+    ficha = json.loads(request.values['data'])
     try:
         personagem.name = ficha['name']
         personagem.descricao = ficha['data']['descricao']
@@ -1291,5 +1270,4 @@ def atrib_pers():
     return jsonify(att_atributo(atributo, mod_racial, valor_sort, efeitos))
 
 if __name__ == "__main__":
-    #app.run(debug=True, host="0.0.0.0", port=5000)
-    init_gui(app, width=1500, height=900, window_title="Ficha Tagmar", icon="static/assets/favicon.ico")
+    app.run(host="127.0.0.1", port=5000)
