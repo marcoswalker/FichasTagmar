@@ -1454,7 +1454,7 @@ function combate_message_aac20(formula, dado, resultado, nome, coluna, municao_t
         critico = true;
     }
     else if (resultado == "branco") {
-        $('.chat_content').append("<div class='row chat_msg'><div class='col-12'><h1 class='mediaeval rola' style='color: black; text-align:center;background-color:white;'>Branco - Errou</h1></div></div>");
+        $('.chat_content').append("<div class='row chat_msg'><div class='col-12'><h1 class='mediaeval rola' style='color: black; text-align:center;background-color:white;'>Branco</h1></div></div>");
         dano_total = 0 + ajusteDano;
     } else if (resultado == "amarelo") {
         $('.chat_content').append("<div class='row chat_msg'><div class='col-12'><h1 class='mediaeval rola' style='color: black; text-align:center;background-color:yellow;'>Amarelo - 25%</h1></div></div>");
@@ -1516,7 +1516,10 @@ function combate_message_aac20(formula, dado, resultado, nome, coluna, municao_t
     }
     $('.chat_content').append("<div class='row chat_msg'><div class='col-12'><h4 class='mediaeval'>Coluna: "+coluna+"</h4></div></div>");
     $('.chat_content').append("<div class='row chat_msg'><div class='col-12'><h1 class='mediaeval rola' style='text-align: center;'>AAC20: " + ajusteDano + "%</h1></div></div>");
-    $('.chat_content').append("<div class='row chat_msg'><div class='col-12'><h2 class='mediaeval rola rola_dano' style='text-align: center;'>Dano: " + dano_novo + "</h2></div></div>");
+    let dano_text = "<h2 class='mediaeval rola rola_dano' style='text-align: center;'>Dano: " + dano_novo + "</h2>";
+    let table_dano = `<table style="margin-left: auto;margin-right: auto;text-align:center;" class="table table-striped mediaeval"><tr><th>25%</th><th>50%</th><th>75%</th><th>100%</th></tr><tr><td>${combate.data.dano.d25}</td><td>${combate.data.dano.d50}</td><td>${combate.data.dano.d75}</td><td>${combate.data.dano.d100}</td></tr></table>`;
+    if (critico) dano_text = table_dano;
+    $('.chat_content').append("<div class='row chat_msg'><div class='col-12'>"+ dano_text +"</div></div>");
     $('.chat_content').append("<div class='row chat_msg'><div class='col-12 mensage_uno mediaeval'>" + formula + ":        <span class='fa-layers fa-fw'><i class='fas fa-dice-d20' data-fa-transform='grow-10' style='color: white;'></i><span class='fa-layers-text' data-fa-transform='grow-6 down-2 left-1' style='color: black;'>" + dado + "</span></span> " + "</div></div>");
     $('.chat_content').append("</div>");
     $('.chat_content').scrollTop($('.chat_content').get(0).scrollHeight);
@@ -1559,7 +1562,10 @@ function combate_message(formula, dado, resultado, nome, coluna, municao_text, c
         critico = true;
     }
     $('.chat_content').append("<div class='row chat_msg'><div class='col-12'><h4 class='mediaeval'>Coluna: "+coluna+"</h4></div></div>");
-    $('.chat_content').append("<div class='row chat_msg'><div class='col-12'><h2 class='mediaeval rola rola_dano' style='text-align: center;'>Dano: " + dano_total + "</h2></div></div>");
+    let dano_text = "<h2 class='mediaeval rola rola_dano' style='text-align: center;'>Dano: " + dano_total + "</h2>";
+    let table_dano = `<table style="margin-left: auto;margin-right: auto;text-align:center;" class="table table-striped mediaeval"><tr><th>25%</th><th>50%</th><th>75%</th><th>100%</th></tr><tr><td>${combate.data.dano.d25}</td><td>${combate.data.dano.d50}</td><td>${combate.data.dano.d75}</td><td>${combate.data.dano.d100}</td></tr></table>`;
+    if (critico) dano_text = table_dano;
+    $('.chat_content').append("<div class='row chat_msg'><div class='col-12'>"+ dano_text +"</div></div>");
     $('.chat_content').append("<div class='row chat_msg'><div class='col-12 mensage_uno mediaeval'>" + formula + ":        <span class='fa-layers fa-fw'><i class='fas fa-dice-d20' data-fa-transform='grow-10' style='color: white;'></i><span class='fa-layers-text' data-fa-transform='grow-6 down-2 left-1' style='color: black;'>" + dado + "</span></span> " + "</div></div>");
     $('.chat_content').append("</div>");
     $('.chat_content').scrollTop($('.chat_content').get(0).scrollHeight);
@@ -2015,7 +2021,7 @@ function roll_habilidade(habilidade) {
         $.getJSON($SCRIPT_ROOT + '/d20', function (dado) {
             let coluna = tabela_resol.filter(b => b[0] === h_total);
             let resultado = coluna[0][dado];
-            atrib_message("1d20", dado, resultado, habilidade.name, coluna[0][0]);
+            atrib_message("1d20", dado, resultado, habilidade.name, coluna[0][0], habilidade.data.tarefAperf);
         });
     } else {
         let valor_hab = h_total % 20;
@@ -2025,7 +2031,7 @@ function roll_habilidade(habilidade) {
                 $.getJSON($SCRIPT_ROOT + '/d20', function (dado) {
                     let coluna = tabela_resol.filter(b => b[0] === 20);
                     let resultado = coluna[0][dado];
-                    atrib_message("1d20", dado, resultado, habilidade.name, coluna[0][0]);
+                    atrib_message("1d20", dado, resultado, habilidade.name, coluna[0][0], habilidade.data.tarefAperf);
                 });
             }
         } else if (valor_hab > 0) {
@@ -2035,13 +2041,13 @@ function roll_habilidade(habilidade) {
                 $.getJSON($SCRIPT_ROOT + '/d20', function (dado) {
                     let coluna = tabela_resol.filter(b => b[0] === 20);
                     let resultado = coluna[0][dado];
-                    atrib_message("1d20", dado, resultado, habilidade.name, coluna[0][0]);
+                    atrib_message("1d20", dado, resultado, habilidade.name, coluna[0][0], habilidade.data.tarefAperf);
                 });
             }
             $.getJSON($SCRIPT_ROOT + '/d20', function (dado) {
                 let coluna = tabela_resol.filter(b => b[0] === sobra);
                 let resultado = coluna[0][dado];
-                atrib_message("1d20", dado, resultado, habilidade.name, coluna[0][0]);
+                atrib_message("1d20", dado, resultado, habilidade.name, coluna[0][0], habilidade.data.tarefAperf);
             });
         }
     }
