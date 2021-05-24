@@ -1953,7 +1953,7 @@ function roll_teste_resist(forc_ataque, forc_resist) {
     else if (def_ataq == -14 || def_ataq == -15) valorSucess = 19;
     else if (def_ataq <= -16) valorSucess = 20;
     $.getJSON($SCRIPT_ROOT + "/d20", function(dado) {
-        if (dado >= valorSucess) { // Sucesso
+        if ((dado >= valorSucess || dado == 20) && dado > 1) { // Sucesso
             stringSucesso = "<h1 class='mediaeval rola' style='text-align:center; color: white;background-color:blue;'>SUCESSO</h1>";
         } else {    // Insucesso
             stringSucesso = "<h1 class='mediaeval rola' style='text-align:center; color: white;background-color:red;'>FRACASSO</h1>";
